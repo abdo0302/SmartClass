@@ -6,21 +6,40 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomEmail;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
+    public function register(Request $request)
+    {    $data=[
+            "name"=>$request->name,
+            "role"=>$request->role
+        ];
+        // Verifiez que les donnees de la requête sont correctes
         $validateData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:eleve,professeur',
         ]);
-        $user =User::create([
+        
+        // Creer un utilisateur
+         $user = User::create([
             'name' => $validateData['name'],
             'email' => $validateData['email'],
             'password' => bcrypt($validateData['password']),
-        ]);
-        $token=auth('api')->login($user);
+         ]);
+
+         // Attribuer le role en fonction de la valeur dans la demande
+        if ($request->role=="eleve") {           
+            $user->assignRole('eleve');
+        } elseif ($request->role=="professeur") {
+            $user->assignRole('professeur'); 
+        }
+
+        $token = auth('api')->login($user);
+        Mail::to($validateData['email'])->send(new WelcomEmail($data));
         return $this->respondWithToken($token);
     }
     public function login(Request $request)
