@@ -12,7 +12,9 @@ use App\Mail\WelcomEmail;
 class AuthController extends Controller
 {
     public function register(Request $request)
-    {    $data=[
+    {    
+        // Préparer les données pour l'email de bienvenue
+        $data=[
             "name"=>$request->name,
             "role"=>$request->role
         ];
@@ -38,28 +40,38 @@ class AuthController extends Controller
             $user->assignRole('professeur'); 
         }
 
+        // Générer un jeton d'authentification pour l'utilisateur
         $token = auth('api')->login($user);
+
+        // Envoyer un email de bienvenue à l'utilisateur
         Mail::to($validateData['email'])->send(new WelcomEmail($data));
+
+        // Retourner la réponse avec le jeton d'authentification
         return $this->respondWithToken($token);
     }
     public function login(Request $request)
     {
+         // Récupérer les identifiants (email et mot de passe) depuis la requête
         $credentials = $request->only('email', 'password');
 
+        // Vérifier les identifiants et obtenir un token JWT
         if (! $token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        // Si l'authentification réussit, retourner une réponse avec le token JWT
         return $this->respondWithToken($token);
     }
 
     public function me()
     {
+        // Retourner les informations de l'utilisateur en format JSON
         return response()->json(auth('api')->user());
     }
 
     public function logout()
     {
+        // Déconnecter l'utilisateur
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
@@ -67,13 +79,16 @@ class AuthController extends Controller
 
     public function refresh()
     {
+        // Rafraîchir le token JWT et obtenir le nouveau token
         return $this->respondWithToken(auth('api')->refresh());
     }
 
     protected function respondWithToken($token)
     {
         return response()->json([
+            // Le token JWT généré ou rafraîchi
             'access_token' => $token,
+            // Le type de token
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
