@@ -1,4 +1,11 @@
 <?php
+/**
+ * Class AuthController
+ *
+ * Description of what this class does.
+ *
+ * @package YourPackage
+ */
 
 namespace App\Http\Controllers;
 

@@ -6,25 +6,31 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 
 // Route::get('/user', function (Request $request) {
-//     return $request->user();
+// return $request->user();
 // })->middleware('auth:api');
+Route::group(
+    ['prefix' => 'auth'],
+    function ($router) {
+        Route::post('login', [AuthController::class, 'login']);
+        Route::post('register', [AuthController::class, 'register']);
+    }
+);
 
-Route::group(['prefix' => 'auth'], function ($router) {
-    Route::post('login', [AuthController::class,'login']);
-    Route::post('register', [AuthController::class,'register']);
-});
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::post('me', [AuthController::class, 'me']);
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('refresh', [AuthController::class, 'refresh']);
+    }
+);
 
-Route::middleware(['auth:api'])->group(function(){
-    Route::post('me', [AuthController::class,'me']);
-    Route::post('logout', [AuthController::class,'logout']);
-    Route::post('refresh', [AuthController::class,'refresh']);
-});
-
-//classe
-Route::middleware(['auth:api'])->group(function(){
-    Route::post('/classe', [ClasseController::class, 'create']);
-    Route::get('/classes', [ClasseController::class, 'showAll']);
-    Route::get('/classe/{id}', [ClasseController::class, 'show'])->middleware('CheckClassPermission');
-    Route::post('/classe/update/{id}', [ClasseController::class, 'update'])->middleware('CheckClassPermission');
-    Route::delete('/classe/{id}', [ClasseController::class, 'destroy'])->middleware('CheckClassPermission');
-});
+// classe
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::post('/classe', [ClasseController::class, 'create']);
+        Route::get('/classes', [ClasseController::class, 'showAll']);
+        Route::get('/classe/{id}', [ClasseController::class, 'show'])->middleware('CheckClassPermission');
+        Route::post('/classe/update/{id}', [ClasseController::class, 'update'])->middleware('CheckClassPermission');
+        Route::delete('/classe/{id}', [ClasseController::class, 'destroy'])->middleware('CheckClassPermission');
+    }
+);

@@ -12,8 +12,11 @@ use Illuminate\Mail\Mailables\Address;
 
 class WelcomEmail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
+
     public $data;
+
 
     /**
      * Create a new message instance.
@@ -21,7 +24,8 @@ class WelcomEmail extends Mailable
     public function __construct(array $data)
     {
         $this->data = $data;
-    }
+    }//end __construct()
+
 
     /**
      * Get the message envelope.
@@ -32,7 +36,8 @@ class WelcomEmail extends Mailable
             from: new Address('abdelljabarhamri06@gmail.com', 'DR Abdelljabar Hamri'),
             subject: 'Bienvenue à SmartClass'
         );
-    }
+    }//end envelope()
+
 
     /**
      * Get the message content definition.
@@ -43,7 +48,8 @@ class WelcomEmail extends Mailable
             view: 'Maile.WelcomEmail',
             with: ['data' => $this->data]
         );
-    }
+    }//end content()
+
 
     /**
      * Get the attachments for the message.
@@ -53,5 +59,7 @@ class WelcomEmail extends Mailable
     public function attachments(): array
     {
         return [];
-    }
-}
+    }//end attachments()
+
+
+}//end class

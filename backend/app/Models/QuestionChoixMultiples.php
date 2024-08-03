@@ -8,4 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionChoixMultiples extends Model
 {
     use HasFactory;
-}
+}//end class

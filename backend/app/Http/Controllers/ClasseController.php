@@ -49,9 +49,12 @@ class ClasseController extends Controller
             // Récupérer l'identifiant de l'utilisateur authentifié
         $id_user=$user->id;
 
-        // Rechercher les classes associées à l'utilisateur et paginer les résultats (10 par page)
+        if ($user->hasRole('admin')) {
+            $Classes=Classe::paginate(10);
+        }else{
+            $Classes=Classe::where('in_user', $id_user)->paginate(10);
+        }
         
-        $Classes=Classe::where('in_user', $id_user)->paginate(10);
         // Vérifier si des classes ont été trouvées
         if ($Classes) {
             return response()->json([$Classes],200);
@@ -115,7 +118,6 @@ class ClasseController extends Controller
           $validatedData = $request->validate([
             'name' => 'nullable|string|unique:classes',
             'date_creation' => 'nullable|date',
-            'in_user' => 'nullable|integer',
         ]);
 
         // Mettre à jour les informations de la classe

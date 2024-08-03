@@ -8,4 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class Devoir extends Model
 {
     use HasFactory;
-}
+}//end class

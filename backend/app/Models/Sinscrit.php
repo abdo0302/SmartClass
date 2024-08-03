@@ -8,4 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class Sinscrit extends Model
 {
     use HasFactory;
-}
+}//end class
