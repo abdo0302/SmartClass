@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Laravel",
-        "_postman_id": "e92d0e98-6fe6-4721-b8ad-e19692733982",
+        "_postman_id": "cfcde790-1964-4c6e-8b58-2c65b8e95324",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -69,7 +69,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"sjuodr\",\"email\":\"elwyn27@example.net\",\"password\":\"5?f8j\\\/h\",\"role\":\"professeur\"}"
+                            "raw": "{\"name\":\"prqwtaranb\",\"email\":\"kaylie59@example.org\",\"password\":\"]}!-A&OAXe\\\"\",\"role\":\"eleve\"}"
                         },
                         "description": "",
                         "auth": {
@@ -184,7 +184,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"qui\",\"date_creation\":\"2024-08-02T13:21:58\"}"
+                            "raw": "{\"name\":\"nihil\",\"date_creation\":\"2024-08-03T12:37:21\"}"
                         },
                         "description": "",
                         "auth": {
@@ -253,7 +253,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "provident",
+                                    "value": "eos",
                                     "description": "The ID of the classe."
                                 }
                             ]
@@ -309,7 +309,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "dolor",
+                                    "value": "eaque",
                                     "description": "The ID of the update."
                                 }
                             ]
@@ -327,7 +327,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"expedita\",\"date_creation\":\"2024-08-02T13:21:58\",\"in_user\":16}"
+                            "raw": "{\"name\":\"atque\",\"date_creation\":\"2024-08-03T12:37:21\"}"
                         },
                         "description": "",
                         "auth": {
@@ -348,7 +348,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "iusto",
+                                    "value": "quisquam",
                                     "description": "The ID of the classe."
                                 }
                             ]

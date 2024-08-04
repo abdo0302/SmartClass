@@ -36,19 +36,19 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: sjuodr
+                  example: prqwtaranb
                 email:
                   type: string
                   description: 'Must be a valid email address. Must not be greater than 255 characters.'
-                  example: elwyn27@example.net
+                  example: kaylie59@example.org
                 password:
                   type: string
                   description: 'Must be at least 8 characters.'
-                  example: '5?f8j/h'
+                  example: ']}!-A&OAXe"'
                 role:
                   type: string
                   description: ''
-                  example: professeur
+                  example: eleve
                   enum:
                     - eleve
                     - professeur
@@ -107,11 +107,11 @@ paths:
                 name:
                   type: string
                   description: ''
-                  example: qui
+                  example: nihil
                 date_creation:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2024-08-02T13:21:58'
+                  example: '2024-08-03T12:37:21'
               required:
                 - name
                 - date_creation
@@ -174,7 +174,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the classe.'
-        example: provident
+        example: eos
         required: true
         schema:
           type: string
@@ -197,22 +197,18 @@ paths:
                 name:
                   type: string
                   description: ''
-                  example: expedita
+                  example: atque
                 date_creation:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2024-08-02T13:21:58'
-                in_user:
-                  type: integer
-                  description: ''
-                  example: 16
+                  example: '2024-08-03T12:37:21'
       security: []
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the update.'
-        example: dolor
+        example: eaque
         required: true
         schema:
           type: string

@@ -58,7 +58,7 @@ endpoints:
         name: name
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: sjuodr
+        example: prqwtaranb
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -67,7 +67,7 @@ endpoints:
         name: email
         description: 'Must be a valid email address. Must not be greater than 255 characters.'
         required: true
-        example: elwyn27@example.net
+        example: kaylie59@example.org
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -76,7 +76,7 @@ endpoints:
         name: password
         description: 'Must be at least 8 characters.'
         required: true
-        example: '5?f8j/h'
+        example: ']}!-A&OAXe"'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -85,7 +85,7 @@ endpoints:
         name: role
         description: ''
         required: true
-        example: professeur
+        example: eleve
         type: string
         enumValues:
           - eleve
@@ -93,10 +93,10 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: sjuodr
-      email: elwyn27@example.net
-      password: '5?f8j/h'
-      role: professeur
+      name: prqwtaranb
+      email: kaylie59@example.org
+      password: ']}!-A&OAXe"'
+      role: eleve
     fileParameters: []
     responses: []
     responseFields: []
@@ -220,7 +220,7 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: qui
+        example: nihil
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -229,14 +229,14 @@ endpoints:
         name: date_creation
         description: 'Must be a valid date.'
         required: true
-        example: '2024-08-02T13:21:58'
+        example: '2024-08-03T12:37:21'
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: qui
-      date_creation: '2024-08-02T13:21:58'
+      name: nihil
+      date_creation: '2024-08-03T12:37:21'
     fileParameters: []
     responses: []
     responseFields: []
@@ -305,13 +305,13 @@ endpoints:
         name: id
         description: 'The ID of the classe.'
         required: true
-        example: provident
+        example: eos
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: provident
+      id: eos
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -354,13 +354,13 @@ endpoints:
         name: id
         description: 'The ID of the update.'
         required: true
-        example: dolor
+        example: eaque
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: dolor
+      id: eaque
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -368,7 +368,7 @@ endpoints:
         name: name
         description: ''
         required: false
-        example: expedita
+        example: atque
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -377,24 +377,14 @@ endpoints:
         name: date_creation
         description: 'Must be a valid date.'
         required: false
-        example: '2024-08-02T13:21:58'
+        example: '2024-08-03T12:37:21'
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
-      in_user:
-        name: in_user
-        description: ''
-        required: false
-        example: 16
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
     cleanBodyParameters:
-      name: expedita
-      date_creation: '2024-08-02T13:21:58'
-      in_user: 16
+      name: atque
+      date_creation: '2024-08-03T12:37:21'
     fileParameters: []
     responses: []
     responseFields: []
@@ -424,13 +414,13 @@ endpoints:
         name: id
         description: 'The ID of the classe.'
         required: true
-        example: iusto
+        example: quisquam
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: iusto
+      id: quisquam
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
