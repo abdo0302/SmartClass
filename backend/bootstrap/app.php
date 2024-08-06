@@ -16,6 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
         'CheckClassPermission'=>\App\Http\Middleware\CheckClassPermission::class,
         'CheckSinscriPermission'=>\App\Http\Middleware\CheckSinscriPermission::class,
         'CheckSinscriDeletPermission'=>\App\Http\Middleware\CheckSinscriDeletPermission::class,
+        'CheckAccesContenuPermission'=>\App\Http\Middleware\CheckAccesContenuPermission::class,
+        'CheckShowContenuPermission'=>\App\Http\Middleware\CheckShowContenuPermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

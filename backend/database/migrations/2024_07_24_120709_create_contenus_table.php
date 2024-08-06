@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('contenus', function (Blueprint $table) {
             $table->id();
             $table->string('titre');
+            $table->string('description');
+            $table->string('file');
+            $table->string('typ_file');
             $table->date('date_creation');
             $table->unsignedBigInteger("in_creature");
             $table->unsignedBigInteger("in_classe");

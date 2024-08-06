@@ -19,7 +19,7 @@ class SinscritControllerTest extends TestCase
         $user = User::factory()->create();
 
          // Trouve une permission spécifique et attribue-la à l'utilisateur
-        $permission = Permission::find(45);
+        $permission = Permission::find(1);
         $user->givePermissionTo($permission);
 
         // Génère un jeton JWT pour l'utilisateur
@@ -48,7 +48,7 @@ class SinscritControllerTest extends TestCase
         $user = User::factory()->create();
 
         // Trouve une permission spécifique et attribue-la à l'utilisateur
-        $permission = Permission::find(45);
+        $permission = Permission::find(1);
         $user->givePermissionTo($permission);
 
         // Génère un jeton JWT pour l'utilisateur
@@ -71,7 +71,7 @@ class SinscritControllerTest extends TestCase
         $user = User::factory()->create();
 
         // Trouve une permission spécifique et attribue-la à l'utilisateur
-        $permission = Permission::find(45);
+        $permission = Permission::find(1);
         $user->givePermissionTo($permission);
 
         // Génère un jeton JWT pour l'utilisateur
