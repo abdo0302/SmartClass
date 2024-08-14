@@ -20,8 +20,8 @@ return new class extends Migration
             $table->date('date_creation');
             $table->unsignedBigInteger("in_creature");
             $table->unsignedBigInteger("in_classe");
-            $table->foreign("in_creature")->references("id")->on("users");
-            $table->foreign("in_classe")->references("id")->on("classes");
+            $table->foreign("in_creature")->references("id")->on("users")->onDelete('cascade');
+            $table->foreign("in_classe")->references("id")->on("classes")->onDelete('cascade');
             $table->timestamps();
         });
     }

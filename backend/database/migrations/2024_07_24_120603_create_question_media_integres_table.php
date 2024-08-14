@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('question_media_integres', function (Blueprint $table) {
             $table->id();
-            // $table->string('question');
-            // $table->string('type');
-            // $table->unsignedBigInteger("in_creature");
-            // $table->unsignedBigInteger("in_devoir");
-            // $table->foreign("in_creature")->references("id")->on("users");
-            // $table->foreign("in_devoir")->references("id")->on("devoirs");
+            $table->string('question');
+            $table->string('media');
+            $table->string('type');
+            $table->unsignedBigInteger("in_creature");
+            $table->unsignedBigInteger("in_devoir");
+            $table->foreign("in_creature")->references("id")->on("users")->onDelete('cascade');
+            $table->foreign("in_devoir")->references("id")->on("devoirs")->onDelete('cascade');
             $table->timestamps();
         });
     }

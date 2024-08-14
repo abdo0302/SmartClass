@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('score');
             $table->unsignedBigInteger("in_user");
             $table->unsignedBigInteger("in_Devoir");
-            $table->foreign("in_user")->references("id")->on("users");
-            $table->foreign("in_Devoir")->references("id")->on("devoirs");
+            $table->foreign("in_user")->references("id")->on("users")->onDelete('cascade');
+            $table->foreign("in_Devoir")->references("id")->on("devoirs")->onDelete('cascade');
             $table->timestamps();
         });
     }

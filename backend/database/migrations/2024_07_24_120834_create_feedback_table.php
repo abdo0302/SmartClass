@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('type');
             $table->unsignedBigInteger("in_creature");
             $table->unsignedBigInteger("in_devoir");
-            $table->foreign("in_creature")->references("id")->on("users");
-            $table->foreign("in_devoir")->references("id")->on("devoirs");
+            $table->foreign("in_creature")->references("id")->on("users")->onDelete('cascade');
+            $table->foreign("in_devoir")->references("id")->on("devoirs")->onDelete('cascade');
             $table->timestamps();
         });
     }

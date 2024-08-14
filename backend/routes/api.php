@@ -8,6 +8,9 @@ use App\Http\Controllers\SinscritController;
 use App\Http\Controllers\AccesClassController;
 use App\Http\Controllers\ContenuController;
 use App\Http\Controllers\AccesContenuController;
+use App\Http\Controllers\userController;
+use App\Http\Controllers\DevoirController;
+
 
 // Route::get('/user', function (Request $request) {
 // return $request->user();
@@ -71,5 +74,25 @@ Route::middleware(['auth:api'])->group(
     function () {
         Route::get('/accescontenus/{id}', [AccesContenuController::class, 'showAll'])->middleware('CheckAccesContenuPermission');
         Route::get('/accescontenu/{id}', [AccesContenuController::class, 'show'])->middleware('CheckShowContenuPermission');
+    }
+);
+
+// user
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::get('/users', [userController::class, 'showAll']);
+        Route::get('/user/{id}', [userController::class, 'show']);
+        Route::post('/user/update/{id}', [userController::class, 'update']);
+        Route::delete('/user/{id}', [userController::class, 'destroy']);
+    }
+);
+
+// Devoir
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::post('/devoir', [DevoirController::class, 'create'])->middleware('CheckSinscriPermission');
+        Route::get('/devoirs/{id}', [DevoirController::class, 'showAll'])->middleware('CheckClassPermission');
+        Route::get('/devoir/{id}', [DevoirController::class, 'show']);
+        Route::delete('/devoir/{id}', [DevoirController::class, 'destroy']);
     }
 );

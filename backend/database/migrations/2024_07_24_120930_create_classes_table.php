@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->date('date_creation');
             $table->unsignedBigInteger("in_user");
-            $table->foreign("in_user")->references("id")->on("users");
+            $table->foreign("in_user")->references("id")->on("users")->onDelete('cascade');
             $table->timestamps();
         });
     }

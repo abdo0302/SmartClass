@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class ClasseControllerTest extends TestCase
 {
@@ -26,10 +27,8 @@ class ClasseControllerTest extends TestCase
         $token = JWTAuth::fromUser($user);
 
         // Envoi d'une requête POST
-        $randomNumber=rand(0, 40);
-        $randomNumber1=rand(1, 4);
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/classe', [
-            'name' => 'Classe Test' . $randomNumber * $randomNumber1,
+            'name' => 'Classe Test' .Str::random(6),
             'date_creation' => '2024-07-01',
         ]);
 

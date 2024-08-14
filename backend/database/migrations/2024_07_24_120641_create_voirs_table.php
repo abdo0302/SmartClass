@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("in_user");
             $table->unsignedBigInteger("in_contenu");
-            $table->foreign("in_user")->references("id")->on("users");
-            $table->foreign("in_contenu")->references("id")->on("contenus");
+            $table->foreign("in_user")->references("id")->on("users")->onDelete('cascade');
+            $table->foreign("in_contenu")->references("id")->on("contenus")->onDelete('cascade');
             $table->timestamps();
         });
     }
