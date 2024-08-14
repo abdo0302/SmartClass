@@ -100,4 +100,16 @@ class AuthController extends Controller
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
     }
+
+    public function getPermissionsAndRoles()
+    {
+        // Get the currently authenticated user using the 'api' guard
+        $user = auth('api')->user();
+
+        // Return the roles and permissions of the user in a JSON response
+        return response()->json([
+            'roles' => $user->getRoleNames(),
+            'permissions' => $user->getAllPermissions()->pluck('name'),
+        ]);
+    }
 }
