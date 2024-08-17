@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('titre');
             $table->string('description');
-            $table->date('date_creation');
+            $table->string('file');
+            $table->string('typ_file');
             $table->unsignedBigInteger("in_creature");
             $table->unsignedBigInteger("in_classe");
             $table->foreign("in_creature")->references("id")->on("users")->onDelete('cascade');

@@ -11,8 +11,9 @@ class Devoir extends Model
     protected $fillable = [
         'titre',
         'description',
-        'date_creation',
-        'in_creature',
+        'file',
+        'typ_file',
         'in_classe',
+        'in_creature'
     ];
 }//end class

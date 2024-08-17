@@ -29,7 +29,6 @@ class ClasseControllerTest extends TestCase
         // Envoi d'une requête POST
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/classe', [
             'name' => 'Classe Test' .Str::random(6),
-            'date_creation' => '2024-07-01',
         ]);
 
          // Vérification du statut de la réponse et du message JSON

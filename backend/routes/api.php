@@ -10,6 +10,8 @@ use App\Http\Controllers\ContenuController;
 use App\Http\Controllers\AccesContenuController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\DevoirController;
+use App\Http\Controllers\AccesDevoirController;
+use App\Http\Controllers\CorrectionController;
 
 
 // Route::get('/user', function (Request $request) {
@@ -78,6 +80,14 @@ Route::middleware(['auth:api'])->group(
     }
 );
 
+//Acces devoir
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::get('/accesdevoirs/{id}', [AccesDevoirController::class, 'showAll'])->middleware('CheckAccesContenuPermission');
+        Route::get('/accesdevoir/{id}', [AccesDevoirController::class, 'show'])->middleware('CheckShowDevoirPermission');
+    }
+);
+
 // user
 Route::middleware(['auth:api'])->group(
     function () {
@@ -95,5 +105,14 @@ Route::middleware(['auth:api'])->group(
         Route::get('/devoirs/{id}', [DevoirController::class, 'showAll'])->middleware('CheckClassPermission');
         Route::get('/devoir/{id}', [DevoirController::class, 'show']);
         Route::delete('/devoir/{id}', [DevoirController::class, 'destroy']);
+    }
+);
+
+// Correction
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::post('/Correction', [CorrectionController::class, 'create'])->middleware('CheckCreateCorrectionPermission');
+        Route::get('/Correction/{id}', [CorrectionController::class, 'show'])->middleware('CheckShowCorrectionDevoirPermission');
+        Route::delete('/Correction/{id}', [CorrectionController::class, 'destroy']);
     }
 );

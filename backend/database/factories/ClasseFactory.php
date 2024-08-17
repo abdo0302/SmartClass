@@ -19,7 +19,6 @@ class ClasseFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->word,
-            'date_creation' => $this->faker->date,
             'in_user' => User::factory(),
         ];
     }

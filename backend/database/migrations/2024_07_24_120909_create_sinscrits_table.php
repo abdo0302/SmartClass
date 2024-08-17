@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('sinscrits', function (Blueprint $table) {
             $table->id();
-            $table->date('date_inscription');
             $table->unsignedBigInteger("in_eleve");
             $table->unsignedBigInteger("in_classe");
             $table->foreign("in_eleve")->references("id")->on("users")->onDelete('cascade');

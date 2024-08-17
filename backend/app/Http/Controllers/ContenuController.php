@@ -27,7 +27,6 @@ class ContenuController extends Controller
             'titre' => 'required|string',
             'description' => 'required|string',
             'file' => 'required|mimes:jpeg,png,jpg,gif,svg,webp,pdf,docx,mp4|max:2048',
-            'date_creation' => 'required|date',
             'in_classe' => 'required|integer',
         ]);   
 

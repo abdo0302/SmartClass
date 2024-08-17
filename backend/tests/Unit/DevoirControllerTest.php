@@ -10,6 +10,8 @@ use App\Models\Devoir;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Str;
+use Faker\Factory as Faker;
+use Illuminate\Http\UploadedFile;
 
 class DevoirControllerTest extends TestCase
 {
@@ -19,7 +21,7 @@ class DevoirControllerTest extends TestCase
        $user = User::factory()->create();
 
        // Récupère une permission spécifique par son ID et l'assigne à l'utilisateur
-       $permission = Permission::find(8);
+       $permission = Permission::find(10);
        $user->givePermissionTo($permission);
 
        // Génère un token JWT pour l'utilisateur créé
@@ -32,7 +34,7 @@ class DevoirControllerTest extends TestCase
        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/devoir', [
            'titre' =>  Str::random(6),
             'description' => 'test description',
-            'date_creation' => now()->toDateString(),
+            'file' => UploadedFile::fake()->create('testfile.pdf'),
             'in_classe' => $classe->id,
 
        ]);
@@ -60,7 +62,6 @@ class DevoirControllerTest extends TestCase
        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/devoir', [
            'titre' => 'titre'.$randomNumber,
             'description' => 'test description',
-            'date_creation' => now()->toDateString(),
             'in_classe' => $classe->id,
        ]);
 
@@ -75,7 +76,7 @@ class DevoirControllerTest extends TestCase
     {
         // Crée un utilisateur avec les permissions nécessaires
        $user = User::factory()->create();
-       $permission = Permission::find(8);
+       $permission = Permission::find(10);
        $user->givePermissionTo($permission);
 
        // Génère un token JWT pour l'utilisateur créé
@@ -98,7 +99,6 @@ class DevoirControllerTest extends TestCase
                      'id' => $devoir->id,
                      'titre' => $devoir->titre,
                      'description' => $devoir->description,
-                     'date_creation' => $devoir->date_creation,
                      'in_classe' => $devoir->in_classe,
                  ]]);
     }
@@ -128,7 +128,7 @@ class DevoirControllerTest extends TestCase
     {
         // Crée un utilisateur avec les permissions nécessaires
         $user = User::factory()->create();
-       $permission = Permission::find(8);
+       $permission = Permission::find(10);
        $user->givePermissionTo($permission);
 
        // Génère un token JWT pour l'utilisateur créé

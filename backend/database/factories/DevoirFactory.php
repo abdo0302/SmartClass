@@ -20,10 +20,11 @@ class DevoirFactory extends Factory
     {
         return [
             'titre' => $this->faker->unique()->sentence,
-            'description' => $this->faker->paragraph,
-            'date_creation' => $this->faker->date,
+            'description' => $this->faker->text(255),
+            'file' => 'files/' . $this->faker->uuid . '.pdf',
             'in_classe' => $this->faker->numberBetween(1, 5),
             'in_creature' => $this->faker->numberBetween(1, 10),
+            'typ_file' => 'application/pdf',
         ];
     }
 }

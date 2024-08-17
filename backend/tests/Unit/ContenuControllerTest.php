@@ -18,8 +18,8 @@ class ContenuControllerTest extends TestCase
             // Crée un utilisateur fictif
             $user = User::factory()->create();
 
-            // Récupère la permission avec l'ID 12 et l'assigne à l'utilisateur
-            $permission = Permission::find(12);
+            // Récupère la permission avec l'ID 14 et l'assigne à l'utilisateur
+            $permission = Permission::find(14);
             $user->givePermissionTo($permission);
 
              // Génère un token JWT pour l'utilisateur
@@ -33,7 +33,6 @@ class ContenuControllerTest extends TestCase
                 'titre' => 'Test Title',
                 'description' => 'Test Description',
                 'file' => UploadedFile::fake()->create('testfile.pdf'),
-                'date_creation' => now()->toDateString(),
                 'in_classe' =>$classe->id ,
             ]);
             // Vérifie que la réponse a le statut HTTP 201 (Created)
@@ -46,8 +45,8 @@ class ContenuControllerTest extends TestCase
              // Crée un utilisateur fictif
             $user = User::factory()->create();
 
-            // Récupère la permission avec l'ID 12 et l'assigne à l'utilisateur
-            $permission = Permission::find(12);
+            // Récupère la permission avec l'ID 14 et l'assigne à l'utilisateur
+            $permission = Permission::find(14);
             $user->givePermissionTo($permission);
 
              // Génère un token JWT pour l'utilisateur

@@ -31,7 +31,6 @@ class SinscritControllerTest extends TestCase
 
         // Envoi d'une requête POST
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/inscrit', [
-            'date_inscription' => now()->toDateString(),
             'in_eleve' => $eleve->id,
             'in_classe' => $classe->id,
         ]);

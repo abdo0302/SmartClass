@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->date('date_creation');
             $table->unsignedBigInteger("in_user");
             $table->foreign("in_user")->references("id")->on("users")->onDelete('cascade');
             $table->timestamps();

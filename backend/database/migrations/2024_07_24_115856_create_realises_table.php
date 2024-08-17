@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('realises', function (Blueprint $table) {
             $table->id();
-            $table->integer('score');
             $table->unsignedBigInteger("in_user");
             $table->unsignedBigInteger("in_Devoir");
             $table->foreign("in_user")->references("id")->on("users")->onDelete('cascade');

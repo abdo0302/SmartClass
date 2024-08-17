@@ -13,15 +13,13 @@ return new class extends Migration
     {
         Schema::create('corrections', function (Blueprint $table) {
             $table->id();
-            $table->integer('score');
             $table->string('description');
             $table->string('file');
-            $table->unsignedBigInteger('id_reponse');
-            $table->unsignedBigInteger('id_question');
-            $table->unsignedBigInteger('id_professeur');
-            $table->foreign("id_reponse")->references("id")->on("reponses")->onDelete('cascade');
-            $table->foreign("id_question")->references("id")->on("question_media_integres")->onDelete('cascade');
-            $table->foreign("id_professeur")->references("id")->on("users")->onDelete('cascade');
+            $table->string('typ_file');
+            $table->unsignedBigInteger('id_devoir');
+            $table->unsignedBigInteger("in_creature");
+            $table->foreign("id_devoir")->references("id")->on("devoirs")->onDelete('cascade');
+            $table->foreign("in_creature")->references("id")->on("users")->onDelete('cascade');
             $table->timestamps();
         });
     }

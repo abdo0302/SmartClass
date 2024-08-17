@@ -39,16 +39,17 @@ class AccesContenuController extends Controller
             $Contenus = Contenu::where('id', $request->id)->first(); 
 
             // Créer une nouvelle entrée dans la table 'Voir' pour enregistrer la visualisation du contenu
-            $voir = Voir::create([
+            $voir = Voir::where('in_user', $user->id)->where('in_contenu', $request->id)->first();
+            if (!$voir) {
+                $voir = Voir::create([
                 'in_user'=>$user->id,
                 'in_contenu'=>$request->id
                 ]
             );
+            }
+            
 
-             // Si l'enregistrement de la visualisation a réussi, retourner le contenu au format JSON avec un code de réponse HTTP 201 (Créé)
-            if ($voir) {
                 return response()->json([$Contenus], 201);  
-            } 
         }else {
              // Retourner un message d'erreur 
             return response()->json(['message' => 'Non autorisé'], 403);

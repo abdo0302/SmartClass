@@ -19,11 +19,23 @@ class DevoirController extends Controller
 
          // Valider les données du formulaire
            $validatedData = $request->validate([
-            'titre' => 'required|string|unique:devoirs',
+            'titre' => 'required|string',
             'description' => 'required|string',
-            'date_creation' => 'required|date',
+            'file' => 'required|mimes:jpeg,png,jpg,gif,svg,webp,pdf,docx,mp4|max:2048',
             'in_classe' => 'required|integer',
         ]);
+        // Traitement du fichier uploadé s'il y en a un
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('file'), $fileName);
+            $validateDta['file'] = 'file/' . $fileName;
+
+            // Get the MIME type of the file
+            $mimeType = $file->getClientMimeType();
+            $validatedData['file'] = 'file/' . $fileName;
+            $validatedData['typ_file'] = $mimeType;
+        }
 
         // Ajouter l'identifiant de l'utilisateur créateur au tableau de données validées
         $validatedData['in_creature']=$user->id;
@@ -110,7 +122,7 @@ class DevoirController extends Controller
             return response()->json(['message' => 'Devoir supprimée avec succès'], 200);
         }else{
             // Retourner un message d'erreur 
-            return response()->json(['message' => 'Aucun contenu trouvé'], 404);
+            return response()->json(['message' => 'Aucun Devoir trouvé'], 404);
         }
     }
 }

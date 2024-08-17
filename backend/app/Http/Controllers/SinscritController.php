@@ -26,7 +26,6 @@ class SinscritController extends Controller
         
           // Valide les données de la requête  
         $validatedData = $request->validate([
-            'date_inscription' => 'required|date',
             'in_eleve' => 'required|integer',
             'in_classe' => 'required|integer',
         ]);   

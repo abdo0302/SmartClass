@@ -19,7 +19,6 @@ class SinscritFactory extends Factory
     public function definition(): array
     {
         return [
-           'date_inscription' =>$this->faker->date,
            'in_eleve' =>User::factory(),
            'in_classe' => Classe::factory(),
         ];

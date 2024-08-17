@@ -49,7 +49,6 @@ class AuthController extends Controller
 
         // Générer un jeton d'authentification pour l'utilisateur
         $token = auth('api')->login($user);
-
         // Envoyer un email de bienvenue à l'utilisateur
         Mail::to($validateData['email'])->send(new WelcomEmail($data));
 

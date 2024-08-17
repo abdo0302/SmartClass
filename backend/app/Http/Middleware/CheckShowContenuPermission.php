@@ -18,17 +18,34 @@ class CheckShowContenuPermission
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Récupérer l'ID du contenu depuis la requête
         $id=$request->id;
+
+        // Récupérer l'ID de l'utilisateur actuellement authentifié
         $id_user=Auth::user()->id;
+
+        // Récupérer le contenu correspondant à l'ID fourni dans la requête
         $Contenu = Contenu::where('id', $id)->first();
-        $id_class=$Contenu->in_classe;
-        $Sinscrit=Sinscrit::where('in_classe', $id_class)->where('in_eleve', $id_user)->first();
-        if ($Sinscrit) {
-            return $next($request);
-        }else {
-            return response()->json(['message' => 'Non autorisé']);
+
+        // Vérifier si le contenu existe
+        if ($Contenu) {
+            // Récupérer l'ID de la classe associée au contenu
+            $id_class=$Contenu->in_classe;
+            // Vérifier si l'utilisateur est inscrit dans la classe
+            $Sinscrit=Sinscrit::where('in_classe', $id_class)->where('in_eleve', $id_user)->first();
+            
+            // Si l'utilisateur est inscrit dans la classe
+            if ($Sinscrit) {
+
+                // Passer la requête au middleware suivant
+                return $next($request);
+            }else {
+                // Si l'utilisateur n'est pas inscrit, retourner un message d'erreur
+                return response()->json(['message' => 'Non autorisé']);
+            }
         }
         
+        return response()->json(['message' => 'Non autorisé']);
         
     }
 }

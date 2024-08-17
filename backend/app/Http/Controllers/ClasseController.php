@@ -20,7 +20,6 @@ class ClasseController extends Controller
             // Valider les données reçues
             $validatedData = $request->validate([
                 'name' => 'required|string|unique:classes',
-                'date_creation' => 'required|date',
             ]);
 
             // Ajouter l'id de l'utilisateur aux données validées
