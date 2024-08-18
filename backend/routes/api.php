@@ -12,6 +12,7 @@ use App\Http\Controllers\userController;
 use App\Http\Controllers\DevoirController;
 use App\Http\Controllers\AccesDevoirController;
 use App\Http\Controllers\CorrectionController;
+use App\Http\Controllers\AccesSessionLiveController;
 
 
 // Route::get('/user', function (Request $request) {
@@ -114,5 +115,12 @@ Route::middleware(['auth:api'])->group(
         Route::post('/Correction', [CorrectionController::class, 'create'])->middleware('CheckCreateCorrectionPermission');
         Route::get('/Correction/{id}', [CorrectionController::class, 'show'])->middleware('CheckShowCorrectionDevoirPermission');
         Route::delete('/Correction/{id}', [CorrectionController::class, 'destroy']);
+    }
+);
+
+// room
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::get('/room/{id}', [AccesSessionLiveController::class, 'show'])->middleware('CheckAccesRoomPermission');
     }
 );

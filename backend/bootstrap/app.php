@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         'CheckShowDevoirPermission'=>\App\Http\Middleware\CheckShowDevoirPermission::class,
         'CheckCreateCorrectionPermission'=>\App\Http\Middleware\CheckCreateCorrectionPermission::class,
         'CheckShowCorrectionDevoirPermission'=>\App\Http\Middleware\CheckShowCorrectionDevoirPermission::class,
+        'CheckAccesRoomPermission'=>\App\Http\Middleware\CheckAccesRoomPermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

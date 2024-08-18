@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classe;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
+use App\Services\DailyService;
+use Illuminate\Support\Str;
 
 class ClasseController extends Controller
 {
@@ -19,7 +22,7 @@ class ClasseController extends Controller
            }
             // Valider les données reçues
             $validatedData = $request->validate([
-                'name' => 'required|string|unique:classes',
+                'name' => 'required|string|max:8|unique:classes',
             ]);
 
             // Ajouter l'id de l'utilisateur aux données validées
@@ -28,8 +31,16 @@ class ClasseController extends Controller
             // Créer la classe après validation
             $classe = Classe::create($validatedData);
             if ($classe) {
+                // Instancier DailyService directement dans la méthode
+                $dailyService = new DailyService();
+                $room = Room::create([
+                    'name'=>$request->input('name').Str::random(6),
+                    'id_class'=>$classe->id,
+                ]);
+                $room_daily = $dailyService->createRoom($room->name);
+                
                 // Retourner une réponse JSON indiquant que la classe a été créée avec succès
-                return response()->json(['message' => 'Classe créée avec succès'], 201);
+                return response()->json(['message' => 'Classe creee avec succes'], 201);
             } else {
                 // Retourner une réponse JSON indiquant un échec de la création de la classe
                 return response()->json(['message' => 'Name de classe déjà existé'], 500);
@@ -94,10 +105,16 @@ class ClasseController extends Controller
           // Trouver la classe par son identifiant
           $id=$request->id;
           $Classe=Classe::findOrFail($id); 
+          if ($Classe) {
+            $Room=Room::where('id_class', $request->id)->first();
+            $Room->delete();
+            $dailyService = new DailyService();
+            $result = $dailyService->deleteRoom($Room->name);
+            // Supprimer la classe trouvée
+            $Classe->delete();
+            return response()->json(['message' => 'Classe supprimée avec succès'], 200);
+          }
           
-          // Supprimer la classe trouvée
-          $Classe->delete();
-          return response()->json(['message' => 'Classe supprimée avec succès'], 200);
     }
 
     public function update(Request $request)
