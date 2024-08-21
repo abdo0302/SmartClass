@@ -13,6 +13,7 @@ use App\Http\Controllers\DevoirController;
 use App\Http\Controllers\AccesDevoirController;
 use App\Http\Controllers\CorrectionController;
 use App\Http\Controllers\AccesSessionLiveController;
+use App\Http\Controllers\TodoController;
 
 
 // Route::get('/user', function (Request $request) {
@@ -122,5 +123,17 @@ Route::middleware(['auth:api'])->group(
 Route::middleware(['auth:api'])->group(
     function () {
         Route::get('/room/{id}', [AccesSessionLiveController::class, 'show'])->middleware('CheckAccesRoomPermission');
+    }
+);
+
+// todo
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::post('/todo', [TodoController::class, 'create']);
+        Route::get('/todos', [TodoController::class, 'showAll']);
+        Route::get('/todos-all', [TodoController::class, 'showAll_admin']);
+        Route::get('/todo/{id}', [TodoController::class, 'show']);
+        Route::post('/user/todo/{id}', [TodoController::class, 'update']);
+        Route::delete('/todo/{id}', [TodoController::class, 'destroy']);
     }
 );

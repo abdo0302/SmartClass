@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('corrections', function (Blueprint $table) {
+        Schema::create('todos', function (Blueprint $table) {
             $table->id();
-            $table->string('description')->nullable();
-            $table->string('file');
-            $table->string('typ_file');
-            $table->unsignedBigInteger('id_devoir');
+            $table->string('title');
+            $table->text('description');
+            $table->string('file')->nullable();
+            $table->string('type_file')->nullable();
             $table->unsignedBigInteger("in_creature");
-            $table->foreign("id_devoir")->references("id")->on("devoirs")->onDelete('cascade');
             $table->foreign("in_creature")->references("id")->on("users")->onDelete('cascade');
             $table->timestamps();
         });
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('corrections');
+        Schema::dropIfExists('todos');
     }
 };

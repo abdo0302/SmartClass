@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('devoirs', function (Blueprint $table) {
             $table->id();
             $table->string('titre');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('file');
             $table->string('typ_file');
             $table->unsignedBigInteger("in_creature");

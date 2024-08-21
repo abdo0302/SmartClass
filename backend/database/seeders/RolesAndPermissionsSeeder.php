@@ -36,11 +36,12 @@ class RolesAndPermissionsSeeder extends Seeder
          $gererElevePermission = Permission::create(['name' => 'gere les eleve']);
          $gererUtilisateurPermission = Permission::create(['name' => 'gere les utilisateurs']);
          $gererStatistiquePermission = Permission::create(['name' => 'gere les statistiques']);
+         $gererTodoPermission = Permission::create(['name' => 'gere les todos']);
 
          // Attribution de la permission au rôle
 
-         $adminRole->givePermissionTo([$inscriAclassPermission, $creerFeedbackPermission, $accesAcontenuPermission, $accesAsessionLivePermission, $gererClassPermission, $suiviElevPermission, $gererDevoirPermission, $gererSessionLivePermission,$envoyEmailPermission, $corrgiDevoirPermission, $gereContenusPermission, $gererElevePermission, $gererUtilisateurPermission, $gererStatistiquePermission ,$accesClassPermission,$accesAcorrectionPermission]);
-         $professeurRole->givePermissionTo([$inscriAclassPermission, $creerFeedbackPermission, $accesAcontenuPermission, $accesAsessionLivePermission, $gererClassPermission, $suiviElevPermission, $gererDevoirPermission, $gererSessionLivePermission,$envoyEmailPermission, $corrgiDevoirPermission, $gereContenusPermission, $gererElevePermission ,$accesClassPermission ,$accesAcorrectionPermission]);
-         $eleveRole->givePermissionTo([$creerFeedbackPermission, $accesAsessionLivePermission ,$accesClassPermission ,$accesAdevoirPermission ,$accesAcorrectionPermission]);
+         $adminRole->givePermissionTo([$inscriAclassPermission, $creerFeedbackPermission, $accesAcontenuPermission, $accesAsessionLivePermission, $gererClassPermission, $suiviElevPermission, $gererDevoirPermission, $gererSessionLivePermission,$envoyEmailPermission, $corrgiDevoirPermission, $gereContenusPermission, $gererElevePermission, $gererUtilisateurPermission, $gererStatistiquePermission ,$accesClassPermission,$accesAcorrectionPermission, $gererTodoPermission]);
+         $professeurRole->givePermissionTo([$inscriAclassPermission, $creerFeedbackPermission, $accesAcontenuPermission, $accesAsessionLivePermission, $gererClassPermission, $suiviElevPermission, $gererDevoirPermission, $gererSessionLivePermission,$envoyEmailPermission, $corrgiDevoirPermission, $gereContenusPermission, $gererElevePermission ,$accesClassPermission ,$accesAcorrectionPermission ,$gererTodoPermission]);
+         $eleveRole->givePermissionTo([$creerFeedbackPermission, $accesAsessionLivePermission ,$accesClassPermission ,$accesAdevoirPermission ,$accesAcorrectionPermission ,$gererTodoPermission]);
     }
 }
