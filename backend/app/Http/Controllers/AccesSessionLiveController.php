@@ -15,7 +15,7 @@ class AccesSessionLiveController extends Controller
            }
         $Room=Room::where('id_class', $request->id)->first();  
         if ($Room) {
-            return response()->json(['name rome' =>$Room->name ], 200);
+            return response()->json($Room->name, 200);
         }
     }
 }

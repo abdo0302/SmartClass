@@ -19,7 +19,7 @@ class DevoirController extends Controller
 
          // Valider les données du formulaire
            $validatedData = $request->validate([
-            'titre' => 'required|string',
+            'titre' => 'required|string|unique:devoirs',
             'description' => 'required|string',
             'file' => 'required|mimes:jpeg,png,jpg,gif,svg,webp,pdf,docx,mp4|max:2048',
             'in_classe' => 'required|integer',
@@ -45,7 +45,7 @@ class DevoirController extends Controller
 
         // Vérifier si la création a réussi
             if ($Devoir) {
-                return response()->json(['message' => 'Devoir créée avec succès'], 201);
+                return response()->json(['message' => 'Devoir cree avec succes'], 201);
             } else {
                 // Retourner un message d'erreur 
                 return response()->json(['message' => 'Échec de la création du devoir'], 500);
@@ -94,7 +94,29 @@ class DevoirController extends Controller
         
          // Retourner la liste des devoirs paginée
         if ($Devoir) {
-            return response()->json(['Devoir' => $Devoir], 200);
+            return response()->json($Devoir, 200);
+        }else{
+             // Retourner un message d'erreur 
+            return response()->json(['message' => 'Aucun Devoir trouvé'], 404);
+        }
+    }
+
+    public function get4Devoir(){
+        // get devoir par class
+        $user = Auth::user();
+        // Vérifier si l'utilisateur a la permission de gérer les devoirs
+        if (!$user->hasPermissionTo('gerer les devoir', 'web')) {
+            return response()->json(['message' => 'Non autorisé'], 403);
+           }
+
+        if ($user->hasRole('admin')) {
+            $Devoir=Devoir::limit(4)->get();
+        }else{
+           $Devoir=Devoir::where('in_creature', $user->id)->limit(4)->get();
+        }     
+
+        if ($Devoir) {
+            return response()->json($Devoir, 200);
         }else{
              // Retourner un message d'erreur 
             return response()->json(['message' => 'Aucun Devoir trouvé'], 404);

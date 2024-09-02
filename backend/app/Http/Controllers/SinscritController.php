@@ -24,6 +24,14 @@ class SinscritController extends Controller
             return response()->json(['message' => 'Non autorise'], 403);
            }
         
+        $exists =Sinscrit::where('in_eleve', $request->in_eleve)
+                       ->where('in_classe', $request->in_classe)
+                       ->first();
+       
+       if ($exists) {
+           return response()->json(['Cet élève est déjà inscrit dans ce class.'], 403);
+       }
+
           // Valide les données de la requête  
         $validatedData = $request->validate([
             'in_eleve' => 'required|integer',
@@ -97,7 +105,7 @@ class SinscritController extends Controller
         $id=$request->id;
 
          // Trouve l'inscription correspondant à l'ID fourni
-        $Sinscrit = Sinscrit::findOrFail($id);
+        $Sinscrit = Sinscrit::where('in_eleve',$id)->first();
 
         if ($Sinscrit) {
             // Supprime l'inscription
@@ -107,5 +115,15 @@ class SinscritController extends Controller
         }
         // Renvoie une réponse JSON avec un message d'erreur
         return response()->json(['message' => 'Sinscrit non trouvé'], 404);
+    }
+
+    //rechercher eleve
+    public function rocherch($email){
+        $user = Auth::user();
+        if (!$user->hasPermissionTo('inscrire les élève dans class', 'web')) {
+            return response()->json(['message' => 'Non autorisé'], 403);
+           }
+         $eleve=User::where('email','like', '%'.$email . '%')->get();
+         return response()->json($eleve, 201);
     }
 }

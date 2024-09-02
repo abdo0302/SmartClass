@@ -21,15 +21,18 @@ class CheckSinscriPermission
         $id=$request->in_classe;
 
         // Trouve la classe correspondant à l'ID fourni
+       
         $classe=Classe::find($id);
-
-        // Obtient l'utilisateur actuellement authentifié
-        $user=Auth::user();
-        // Vérifie si l'utilisateur est le propriétaire de la classe ou s'il a le rôle 'admin'
-        if ($classe->in_user == $user->id || $user->hasRole('admin')){
-            // Autorise l'accès et passe la requête au prochain middleware ou au contrôleur
-            return $next($request);
-        }
+        if ($classe) {
+            // Obtient l'utilisateur actuellement authentifié
+            $user=Auth::user();
+            // Vérifie si l'utilisateur est le propriétaire de la classe ou s'il a le rôle 'admin'
+            if ($classe->in_user == $user->id || $user->hasRole('admin')){
+                // Autorise l'accès et passe la requête au prochain middleware ou au contrôleur
+                return $next($request);
+            }
+            }
+        
 
         // Renvoie une réponse JSON avec un message d'erreur
         return response()->json(['message' => 'Non autorisé']);

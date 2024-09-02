@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Classe;
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use App\Services\DailyService;
 use Illuminate\Support\Str;
+use App\Models\Sinscrit;
 
 class ClasseController extends Controller
 {
@@ -22,7 +24,7 @@ class ClasseController extends Controller
            }
             // Valider les données reçues
             $validatedData = $request->validate([
-                'name' => 'required|string|max:8|unique:classes',
+                'name' => 'required|string|min:3|max:15|unique:classes',
             ]);
 
             // Ajouter l'id de l'utilisateur aux données validées
@@ -60,14 +62,20 @@ class ClasseController extends Controller
         $id_user=$user->id;
 
         if ($user->hasRole('admin')) {
-            $Classes=Classe::paginate(10);
+            $Classes=Classe::all();
         }else{
-            $Classes=Classe::where('in_user', $id_user)->paginate(10);
+            $Classes=Classe::where('in_user', $id_user)->get();
         }
-        
+        $inscriptions = [];
+
+        // Parcourir chaque classe et récupérer les inscriptions correspondantes
+        foreach ($Classes as $classe) {
+            $classInscriptions = Sinscrit::where('in_classe', $classe->id)->get();
+            $inscriptions[$classe->id] = count($classInscriptions);
+        }
         // Vérifier si des classes ont été trouvées
         if ($Classes) {
-            return response()->json([$Classes],200);
+            return response()->json([$Classes, $inscriptions],200);
         }else{
             return response()->json(['message' => 'Aucune classe trouvée'], 404);
         }
@@ -87,7 +95,7 @@ class ClasseController extends Controller
           $Classe=Classe::find($id);
            // Vérifier si la classe a été trouvée
           if ($Classe) {
-            return response()->json([$Classe],200);
+            return response()->json($Classe,200);
           }else{
             return response()->json(['message' => 'Classe non trouvée'], 404);
           }
@@ -141,6 +149,24 @@ class ClasseController extends Controller
 
           // Retourner une réponse JSON avec un message de succès et le code de statut HTTP 200 (OK)
           return response()->json(['message' => 'Classe mise à jour avec succès'], 200);
+    }
+
+    //get eleve par class
+    public function getElevs($id){
+        // Récupérer l'utilisateur actuellement authentifié
+        $user = Auth::user();
+
+        // Vérifier si l'utilisateur a la permission nécessaire pour gérer les classes
+        if (!$user->hasPermissionTo('gerer class', 'web')) {
+            return response()->json(['message' => 'Non autorisé'], 403);
+           }
+        $elevs=[];
+        $eleves_id=Sinscrit::where('in_classe', $id)->get('in_eleve');
+        foreach($eleves_id as $eleve_id){
+            $elevsInfo=User::where('id', $eleve_id->in_eleve)->first();
+            $elevs[$eleve_id->in_eleve]=$elevsInfo;
+        }
+        return $elevs;
     }
 
 }

@@ -44,6 +44,7 @@ Route::middleware(['auth:api'])->group(
         Route::get('/classe/{id}', [ClasseController::class, 'show'])->middleware('CheckClassPermission');
         Route::post('/classe/update/{id}', [ClasseController::class, 'update'])->middleware('CheckClassPermission');
         Route::delete('/classe/{id}', [ClasseController::class, 'destroy'])->middleware('CheckClassPermission');
+        Route::get('/eleve/{id}',[ClasseController::class, 'getElevs']);
     }
 );
 
@@ -55,8 +56,14 @@ Route::middleware(['auth:api'])->group(
         Route::delete('/inscrit/{id}', [SinscritController::class, 'destroy'])->middleware('CheckSinscriDeletPermission');
     }
 );
+//rechercher eleve par email
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::get('/eleve/rocherch/{email}', [SinscritController::class, 'rocherch']);
+    }
+);
 
-// inscrit elev a classe
+// accesclass elev a classe
 Route::middleware(['auth:api'])->group(
     function () {
         Route::get('/accesclass', [AccesClassController::class, 'showAll']);
@@ -106,6 +113,7 @@ Route::middleware(['auth:api'])->group(
         Route::post('/devoir', [DevoirController::class, 'create'])->middleware('CheckSinscriPermission');
         Route::get('/devoirs/{id}', [DevoirController::class, 'showAll'])->middleware('CheckClassPermission');
         Route::get('/devoir/{id}', [DevoirController::class, 'show']);
+        Route::get('/getdevoir', [DevoirController::class, 'get4Devoir']);
         Route::delete('/devoir/{id}', [DevoirController::class, 'destroy']);
     }
 );

@@ -22,7 +22,7 @@ class CheckSinscriDeletPermission
         $id=$request->id;
 
         // Trouve l'inscription (Sinscrit) correspondant à l'ID fourni
-        $Sinscrit = Sinscrit::find($id);
+        $Sinscrit = Sinscrit::where('in_eleve',$id)->first();
 
          // Récupère l'ID de la classe associée à cette inscription
         $in_classe = $Sinscrit->in_classe;
