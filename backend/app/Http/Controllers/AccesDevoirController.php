@@ -15,9 +15,13 @@ class AccesDevoirController extends Controller
         // Récupérer l'utilisateur actuellement authentifié
         $user = Auth::user();
         
-         // Vérifie si l'utilisateur a le rôle 'eleve'
+         // Vérifie si l'utilisateur a le rôle 'eleve'  Aucun
         if ($user->hasRole('eleve')) {
-            $Devoirs = Devoir::where('in_classe', $request->id)->paginate(10);  
+            $Devoirs = Devoir::where('in_classe', $request->id)->get();  
+
+            if (count($Devoirs)==0) {
+                return response()->json('Aucun', 201); 
+            }
             // Retourner une réponse JSON
         return response()->json([$Devoirs], 201);  
         }else {

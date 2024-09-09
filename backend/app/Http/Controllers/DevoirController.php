@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Devoir;
+use App\Models\realise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\AblyNotificationService;
+use App\Models\Sinscrit;
+use App\Models\User;
 
 class DevoirController extends Controller
-{
+{   protected $ablyNotificationService;
+
+    public function __construct(AblyNotificationService $ablyNotificationService)
+    {
+        $this->ablyNotificationService = $ablyNotificationService;
+    }
    
     public function create(Request $request)
     {
@@ -45,7 +54,21 @@ class DevoirController extends Controller
 
         // Vérifier si la création a réussi
             if ($Devoir) {
-                return response()->json(['message' => 'Devoir cree avec succes'], 201);
+
+                $Sinscrit = Sinscrit::where('in_classe',$validatedData['in_classe'])->get('in_eleve');
+                foreach($Sinscrit as $id_eleve){
+                    $token_user=User::where('id',$id_eleve->in_eleve)->first('token');
+                    $message = 'Un exercice intitulé '.$validatedData['titre'].' a été ajouté';
+                    $this->ablyNotificationService->sendNotification($token_user->token, $message);
+                }
+                
+                
+        
+                
+                
+
+
+                return response()->json(['message' => 'devoir créée avec succes'], 201);
             } else {
                 // Retourner un message d'erreur 
                 return response()->json(['message' => 'Échec de la création du devoir'], 500);
@@ -87,11 +110,15 @@ class DevoirController extends Controller
 
            // Récupérer les devoirs selon le rôle de l'utilisateur et la classe
         if ($user->hasRole('admin')) {
-            $Devoir=Devoir::where('in_classe', $request->id)->paginate(10);
+            $Devoir=Devoir::where('in_classe', $request->id)->get();
         }else{
-           $Devoir=Devoir::where('in_classe', $request->id)->where('in_creature', $user->id)->paginate(10);
+           $Devoir=Devoir::where('in_classe', $request->id)->where('in_creature', $user->id)->get();
         }  
         
+        if (count($Devoir)==0) {
+            return response()->json('Aucun', 200);
+        }
+
          // Retourner la liste des devoirs paginée
         if ($Devoir) {
             return response()->json($Devoir, 200);
@@ -102,7 +129,6 @@ class DevoirController extends Controller
     }
 
     public function get4Devoir(){
-        // get devoir par class
         $user = Auth::user();
         // Vérifier si l'utilisateur a la permission de gérer les devoirs
         if (!$user->hasPermissionTo('gerer les devoir', 'web')) {
@@ -145,6 +171,23 @@ class DevoirController extends Controller
         }else{
             // Retourner un message d'erreur 
             return response()->json(['message' => 'Aucun Devoir trouvé'], 404);
+        }
+    }
+
+    public function statistique($id){
+        $user = Auth::user();
+        if (!$user->hasPermissionTo('gerer les devoir', 'web')) {
+            return response()->json(['message' => 'Non autorisé'], 403);
+        } 
+        $statistique=realise::where('in_Devoir', $id)->first();
+        if ($statistique) {
+            $total=count($statistique);
+            return response()->json([
+                'total' => $total,
+                'statistique'=>$statistique
+            ], 200);
+        }else{
+            return response()->json(['total' => 0], 200);
         }
     }
 }

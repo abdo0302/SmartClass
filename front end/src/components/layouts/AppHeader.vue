@@ -7,7 +7,7 @@
 
 // Function to update the authentication form state
   const Form=(value)=>{
-    store.commit('setAuthForm',value)
+    store.commit('setAuthForm',value);
   }
 </script>
 <template>
@@ -18,28 +18,6 @@
                 <div class="flex items-center lg:order-2 gap-4">
                     <button @click="Form('sinup')" class="font-semibold hover:text-blue-700">S'inscrire</button>
                     <button @click="Form('login')" class="bg-blue-700 text-white p-2 rounded-xl font-semibold hover:bg-blue-600">Se connecter</button>
-                </div>
-                <div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
-                    <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-                        <li>
-                            <a href="#" class="hover:text-blue-700">Home</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-blue-700">Company</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-blue-700">Marketplace</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-blue-700">Features</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-blue-700">Team</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-blue-700">Contact</a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </nav>

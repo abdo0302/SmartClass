@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomEmail;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -32,12 +33,13 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:eleve,professeur',
         ]);
-        
+        $token = Str::random(80);
         // Creer un utilisateur
          $user = User::create([
             'name' => $validateData['name'],
             'email' => $validateData['email'],
             'password' => bcrypt($validateData['password']),
+            'token'=>bcrypt($token)
          ]);
 
          // Attribuer le role en fonction de la valeur dans la demande

@@ -33,10 +33,10 @@ class userController extends Controller
          // Vérifier si l'utilisateur est un administrateur
         if ($user->hasRole('admin')) {
             // Récupérer la liste paginée des utilisateurs
-            $Users = User::paginate(10); 
+            $Users = User::get(); 
 
             // Retourner la liste des Users paginée
-        return response()->json(['Users' => $Users], 201);  
+        return response()->json($Users, 201);  
         }else {
             // Retourner un message d'erreur 
             return response()->json(['message' => 'Non autorisé'], 403);
@@ -46,19 +46,16 @@ class userController extends Controller
     public function update(Request $request)
     {
         $user_id = Auth::user()->id;
-        $id=$request->id;
-
         // Récupérer l'utilisateur à mettre à jour
-         $User = User::findOrFail($id);
+         $User = User::findOrFail($user_id);
 
          // Vérifier si l'utilisateur authentifié essaie de mettre à jour son propre compte
-        if ($User->id ==$user_id) {
             
             // Valider les données de la requête
             $validatedData = $request->validate([
                 'name' => 'nullable|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users',
-                'password' => 'nullable|string|min:8|',
+                'password' => 'nullable|string|min:8|confirmed',
             ]);
             // Crypter le mot de passe uniquement s'il est fourni
             $validatedData['password']=bcrypt($validatedData['password']);
@@ -67,10 +64,6 @@ class userController extends Controller
             $User->update($validatedData);
             // Retourner le User mis à jour
         return response()->json(['message' => 'Votre compte à jour avec succès'], 201);  
-        }else {
-            // Retourner un message d'erreur 
-            return response()->json(['message' => 'Non autorisé'], 403);
-        }
     }
 
     public function destroy(Request $request)
@@ -79,17 +72,20 @@ class userController extends Controller
         $id=$request->id;
 
         // Vérifier si l'utilisateur est administrateur et qu'il ne tente pas de supprimer son propre compte
-        if ($user->hasRole('admin') && $id !== $user->id) {
+        if ($user->hasRole('admin') || $id !== $user->id) {
             $Users = User::findOrFail($id); 
 
             // Préparer les données pour l'email
             if ($Users) {
-                $data=[
+                if ($user->hasRole('admin')) {
+                    $data=[
                     "name"=>$user->name,
-                ];
+                   ];
 
-                // Envoyer l'email à l'utilisateur à supprimer
-               Mail::to($Users->email)->send(new DeleteAcunteEmail($data));
+                    // Envoyer l'email à l'utilisateur à supprimer
+                    Mail::to($Users->email)->send(new DeleteAcunteEmail($data));
+                }
+                
 
                // Supprimer l'utilisateur
                $Users->delete();

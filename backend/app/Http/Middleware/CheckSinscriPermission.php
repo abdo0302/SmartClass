@@ -30,11 +30,14 @@ class CheckSinscriPermission
             if ($classe->in_user == $user->id || $user->hasRole('admin')){
                 // Autorise l'accès et passe la requête au prochain middleware ou au contrôleur
                 return $next($request);
+            }else{
+                // Renvoie une réponse JSON avec un message d'erreur
+               return response()->json(['message' => 'Non autorise']);
             }
             }
+            return response()->json(['message' => 'Aucun class trouve'], 404);
         
 
-        // Renvoie une réponse JSON avec un message d'erreur
-        return response()->json(['message' => 'Non autorisé']);
+        
     }
 }

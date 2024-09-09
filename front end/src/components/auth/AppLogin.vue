@@ -1,14 +1,35 @@
 <script setup>
 // Import from external libraries
   import { useStore } from 'vuex';
+  import { computed, ref , watch } from 'vue';
 
 // Initialize the store 
   const store = useStore();
-
+  const Frm=(value)=>{
+    store.commit('setAuthForm',value)
+  }
 // Function to update the authentication form state  
   const closeForm=()=>{
+    store.commit('setAuth','')
      store.commit('setAuthForm','')
    }
+
+  const user={
+    email:'',
+    password:'',
+   } 
+   let error=computed(() => store.getters.getAuth);
+   let loging=ref(false);
+   const signIn=()=>{
+    loging.value=true
+    store.commit('setAuth','')
+    store.dispatch('signIn',user)
+   }
+   watch(error, (newError) => {
+  if (newError !== '') {
+    loging.value = false;
+  }
+});
 </script>
 <template>
     <section class="bg-black/70 w-full h-screen fixed top-0 left-0 flex justify-center items-center">
@@ -17,24 +38,25 @@
                 <i class="fa-solid fa-x"></i>
              </button>
             <h1 class="pb-6 font-bold text-4xl text-center cursor-default">Se connecter</h1>
-          <form action="#" method="post" class="space-y-4">
+            <span class="text-red-500 text-center w-full block">{{error}}</span>
+           <form @submit.prevent="signIn" class="space-y-4">
             <div>
               <label for="email" class="mb-2 text-lg">Email</label>
-              <input id="email" class="border p-3 placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full" type="email" placeholder="Email" required />
+              <input v-model="user.email" id="email" class="border p-3 placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full" type="email" placeholder="Email" required />
             </div>
             <div>
               <label for="password" class="mb-2 text-lg">Password</label>
-              <input id="password" class="border p-3 shadow-md placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full" type="password" placeholder="Password" required/>
+              <input v-model="user.password" id="password" class="border p-3 shadow-md placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full" type="password" placeholder="Password" required/>
             </div>
             <a class="group text-blue-400 transition-all duration-100 ease-in-out" href="#">
               <span class="bg-left-bottom bg-gradient-to-r text-sm from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">Forget your password?</span>
             </a>
-            <button class="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg mt-6 p-2 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out" type="submit" >Se connecter</button>
+            <button class="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg mt-6 p-2 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out flex justify-center items-center gap-2" type="submit" >Se connecter <img v-if="loging==true" class="w-7 animate-spin" src="../../assets/img/pngwing.com (12).png" alt=""></button>
           </form>
           <div class="flex flex-col mt-4 items-center justify-center text-sm">
             <h3 class="dark:text-gray-300">Vous n'avez pas encore de compte?
               <a class="group text-blue-400 transition-all duration-100 ease-in-out" href="#">
-                <span class="bg-left-bottom bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">Inscrivez-vous</span>
+                <span @click="Frm('sinup')" class="bg-left-bottom bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">Inscrivez-vous</span>
               </a>
             </h3>
           </div>

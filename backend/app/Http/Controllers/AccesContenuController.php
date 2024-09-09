@@ -13,13 +13,18 @@ class AccesContenuController extends Controller
     public function showAll(Request $request){
         // get les contenu par class
 
-        // Récupérer l'utilisateur actuellement authentifié
+        // Récupérer l'utilisateur actuellement authentifié 
         $user = Auth::user();
         
          // Vérifie si l'utilisateur a le rôle 'eleve'
         if ($user->hasRole('eleve')) {
-            $Contenus = Contenu::where('in_classe', $request->id)->paginate(10);  
+            $Contenus = Contenu::where('in_classe', $request->id)->get();  
+
+            if (count($Contenus)==0) {
+                return response()->json('Aucun', 201); 
+            }
             // Retourner une réponse JSON
+
         return response()->json([$Contenus], 201);  
         }else {
              // Retourner un message d'erreur 

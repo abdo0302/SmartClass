@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('todos', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
-            $table->string('file')->nullable();
-            $table->string('type_file')->nullable();
+            $table->string('color');
+            $table->enum('priority',['urgen','Important','non urgent']);
             $table->unsignedBigInteger("in_creature");
             $table->foreign("in_creature")->references("id")->on("users")->onDelete('cascade');
             $table->timestamps();

@@ -33,9 +33,11 @@ class AccesClassController extends Controller
                  // Ajoute la classe au tableau des classes
                 array_push($classes,$classe);
             }
-
+            if (count($classes)==0) {
+                return response()->json('Aucun', 201);
+            }
             // Retourner une réponse JSON
-            return response()->json([$classes], 201);
+            return response()->json(['Classes'=>$classes], 201);
         }
     }
 }

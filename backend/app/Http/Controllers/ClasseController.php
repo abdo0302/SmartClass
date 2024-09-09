@@ -71,11 +71,16 @@ class ClasseController extends Controller
         // Parcourir chaque classe et récupérer les inscriptions correspondantes
         foreach ($Classes as $classe) {
             $classInscriptions = Sinscrit::where('in_classe', $classe->id)->get();
-            $inscriptions[$classe->id] = count($classInscriptions);
+            array_push($inscriptions,count($classInscriptions));
         }
         // Vérifier si des classes ont été trouvées
+        if (count($Classes)==0) {
+            return response()->json('Aucun',200);
+        }
         if ($Classes) {
-            return response()->json([$Classes, $inscriptions],200);
+            return response()->json([
+                'Classes'=>$Classes,
+                'eleve'=>$inscriptions],200);
         }else{
             return response()->json(['message' => 'Aucune classe trouvée'], 404);
         }

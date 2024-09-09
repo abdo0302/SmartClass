@@ -9,9 +9,16 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\InsctireClasseEmail;
 use App\Models\User;
 use App\Models\Classe;
+use App\Services\AblyNotificationService;
 
 class SinscritController extends Controller
 {
+    protected $ablyNotificationService;
+
+    public function __construct(AblyNotificationService $ablyNotificationService)
+    {
+        $this->ablyNotificationService = $ablyNotificationService;
+    }
 
 
     public function create(Request $request)
@@ -58,6 +65,8 @@ class SinscritController extends Controller
         if ($sinscrit) {
             // Envoie un email à l'élève pour confirmer l'inscription
             Mail::to($eleve->email)->send(new InsctireClasseEmail($data));
+            $message = 'Vous êtes inscrit dans la class '.$classe->name;
+            $this->ablyNotificationService->sendNotification($eleve->token, $message);
             // Renvoie une réponse JSON
             return response()->json(['message' => 'sinscrit avec succès'], 201);
         } else {

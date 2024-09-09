@@ -14,6 +14,8 @@ use App\Http\Controllers\AccesDevoirController;
 use App\Http\Controllers\CorrectionController;
 use App\Http\Controllers\AccesSessionLiveController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\CalendrierController;
+use App\Http\Controllers\StatistiqueController;
 
 
 // Route::get('/user', function (Request $request) {
@@ -78,6 +80,8 @@ Route::middleware(['auth:api'])->group(
         Route::get('/contenu/{id}', [ContenuController::class, 'show']);
         Route::post('/contenu/update/{id}', [ContenuController::class, 'update']);
         Route::delete('/contenu/{id}', [ContenuController::class, 'destroy']);
+        Route::get('/contenu/statistique/{id}', [ContenuController::class, 'statistique']);
+        Route::get('/getcontenu', [ContenuController::class, 'get4Contenu']);
     }
 );
 
@@ -102,7 +106,7 @@ Route::middleware(['auth:api'])->group(
     function () {
         Route::get('/users', [userController::class, 'showAll']);
         Route::get('/user/{id}', [userController::class, 'show']);
-        Route::post('/user/update/{id}', [userController::class, 'update']);
+        Route::post('/user/update', [userController::class, 'update']);
         Route::delete('/user/{id}', [userController::class, 'destroy']);
     }
 );
@@ -111,10 +115,20 @@ Route::middleware(['auth:api'])->group(
 Route::middleware(['auth:api'])->group(
     function () {
         Route::post('/devoir', [DevoirController::class, 'create'])->middleware('CheckSinscriPermission');
-        Route::get('/devoirs/{id}', [DevoirController::class, 'showAll'])->middleware('CheckClassPermission');
+        Route::get('/devoirs/{id}', [DevoirController::class, 'showAll']);
         Route::get('/devoir/{id}', [DevoirController::class, 'show']);
         Route::get('/getdevoir', [DevoirController::class, 'get4Devoir']);
         Route::delete('/devoir/{id}', [DevoirController::class, 'destroy']);
+        Route::get('/devoir/statistique/{id}', [DevoirController::class, 'statistique']);
+    }
+);
+
+// Calendar
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::post('/calendar', [CalendrierController::class, 'create']);
+        Route::get('/calendar', [CalendrierController::class, 'showAll']);
+        Route::delete('/calendar/{title}', [CalendrierController::class, 'destroy']);
     }
 );
 
@@ -139,9 +153,14 @@ Route::middleware(['auth:api'])->group(
     function () {
         Route::post('/todo', [TodoController::class, 'create']);
         Route::get('/todos', [TodoController::class, 'showAll']);
-        Route::get('/todos-all', [TodoController::class, 'showAll_admin']);
         Route::get('/todo/{id}', [TodoController::class, 'show']);
-        Route::post('/user/todo/{id}', [TodoController::class, 'update']);
         Route::delete('/todo/{id}', [TodoController::class, 'destroy']);
+    }
+);
+
+// Statistique
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::get('/statistique', [StatistiqueController::class, 'Statistique']);
     }
 );

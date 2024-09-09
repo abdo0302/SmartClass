@@ -10,9 +10,8 @@ class Todo extends Model
     use HasFactory;
     protected $fillable = [
         'title',
-        'description',
-        'file',
-        'type_file',
+        'color',
+        'priority',
         'in_creature',
     ];
 }

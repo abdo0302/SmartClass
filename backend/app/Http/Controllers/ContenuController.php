@@ -9,10 +9,18 @@ use App\Models\User;
 use App\Models\Classe;
 use App\Models\Sinscrit;
 use App\Mail\RappelContenulEmail;
+use App\Models\Voir;
 use Illuminate\Support\Facades\Mail;
+use App\Services\AblyNotificationService;
 
 class ContenuController extends Controller
 {
+    protected $ablyNotificationService;
+
+    public function __construct(AblyNotificationService $ablyNotificationService)
+    {
+        $this->ablyNotificationService = $ablyNotificationService;
+    }
 
     public function create(Request $request)
     {
@@ -59,6 +67,9 @@ class ContenuController extends Controller
             foreach ($Sinscrits as $sinscrit) {
                 $eleve=User::where('id', $sinscrit->in_eleve)->get();
                 Mail::to($eleve[0]->email)->send(new RappelContenulEmail($data));
+
+                $message = 'Un Contenu intitulé '.$validatedData['titre'].' a été ajouté';
+                $this->ablyNotificationService->sendNotification($eleve[0]->token, $message);
             }
             
             return response()->json(['message' => 'Contenu cree avec succes'], 201);
@@ -79,9 +90,14 @@ class ContenuController extends Controller
            }
 
         // Récupération de tous les contenus pour une classe spécifique   
-        $Contenus=Contenu::where('in_classe', $request->id)->paginate(10);
+        $Contenus=Contenu::where('in_classe', $request->id)->get();
+
+        if (count($Contenus)==0) {
+            return response()->json('Aucun', 200);
+        }
+
         if ($Contenus) {
-            return response()->json(['Contenus' => $Contenus], 200);
+            return response()->json($Contenus, 200);
         }else{
              // Retourner un message d'erreur 
             return response()->json(['message' => 'Aucun contenu trouvé'], 404);
@@ -160,6 +176,27 @@ class ContenuController extends Controller
         }
     }
 
+    public function get4Contenu(){
+        $user = Auth::user();
+    
+        if (!$user->hasPermissionTo('gere les contenus', 'web')) {
+            return response()->json(['message' => 'Non autorisé'], 403);
+           }
+
+        if ($user->hasRole('admin')) {
+            $Contenu=Contenu::limit(4)->get();
+        }else{
+           $Contenu=Contenu::where('in_creature', $user->id)->limit(4)->get();
+        }     
+
+        if ($Contenu) {
+            return response()->json($Contenu, 200);
+        }else{
+             // Retourner un message d'erreur 
+            return response()->json(['message' => 'Aucun Contenu trouvé'], 404);
+        }
+    }
+
     public function destroy(Request $request)
     {
          // Vérifie si l'utilisateur actuel a la permission nécessaire
@@ -182,6 +219,23 @@ class ContenuController extends Controller
         }else{
              // Retourner un message d'erreur 
             return response()->json(['message' => 'Aucun contenu trouvé'], 404);
+        }
+    }
+
+    public function statistique($id){
+        $user = Auth::user();
+        if (!$user->hasPermissionTo('gere les contenus', 'web')) {
+            return response()->json(['message' => 'Non autorisé'], 403);
+        } 
+        $statistique=Voir::where('in_contenu', $id)->first();
+        if ($statistique) {
+            $total=count($statistique);
+            return response()->json([
+                'total' => $total,
+                'statistique'=>$statistique
+            ], 200);
+        }else{
+            return response()->json(['total' => 0], 200);
         }
     }
 }

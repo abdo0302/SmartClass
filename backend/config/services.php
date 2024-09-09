@@ -13,6 +13,9 @@ return [
         | a conventional file to locate the various service credentials.
         |
     */
+    'ably' => [
+        'key' => env('ABLY_API_KEY'),
+    ],
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),

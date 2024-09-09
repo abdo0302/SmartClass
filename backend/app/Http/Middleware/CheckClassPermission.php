@@ -22,6 +22,9 @@ class CheckClassPermission
         $id=$request->id;
          // Rechercher la classe par son identifiant
         $Classe=Classe::find($id);
+        if(!$Classe){
+            return response()->json(['message' => 'NULL']);
+        }
         // Vérifier si la classe appartient à l'utilisateur authentifié
         if ($Classe->in_user == Auth::user()->id || Auth::user()->hasRole('admin')) {
             // Si l'utilisateur est le propriétaire de la classe, continuer la requête
