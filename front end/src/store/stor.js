@@ -25,6 +25,10 @@ const store = createStore({
       Notification:'',
       Contenus:'',
       Devoirs:'',
+      Contenu:'',
+      StatistiqueContenu:'',
+      NotificationMessage:'',
+      Config:''
   },
   mutations: {
     setAuthForm(state,value){
@@ -88,10 +92,22 @@ const store = createStore({
       state.Notification=value
     },
     setContenus(state,value){
-      state.Contenus=value
+      state.Contenus=value;
     },
     setDevoirs(state,value){
-      state.Devoirs=value
+      state.Devoirs=value;
+    },
+    setContenu(state,value){
+      state.Contenu=value;
+    },
+    SetStatistiqueContenu(state,value){
+      state.StatistiqueContenu=value;
+    },
+    setNotificationMessage(state,value){
+      state.NotificationMessage=value;
+    },
+    setConfig(state,value){
+      state.Config=value;
     }
     
   },
@@ -154,7 +170,8 @@ const store = createStore({
           sessionStorage.clear();
           localStorage.clear();
           sessionStorage.removeItem('token');
-          router.push('/');
+          window.location.replace('/');
+
         }catch(erreur){
           console.log(erreur);
         }
@@ -327,9 +344,9 @@ const store = createStore({
         }
     },
     // get events 
-    async getEvents(context){
+    async getEvents(context,id){
       try{
-        const response = await axios.get(`http://127.0.0.1:8000/api/calendar`,{
+        const response = await axios.get(`http://127.0.0.1:8000/api/calendars/${id}`,{
           headers: {
             'Authorization': `Bearer ${sessionStorage.getItem('token')}`
          }
@@ -347,12 +364,15 @@ const store = createStore({
             'Authorization': `Bearer ${sessionStorage.getItem('token')}`
          }
         })
+          context.commit('setMessage','succès');
         }catch(erreur){
-          console.log(erreur);
+          context.commit('setMessage','Une erreur s\'est produite, réessayez');
         }
     },
     // delete events 
     async deletEvents(context,title){
+      console.log(title);
+      
       try{
          await axios.delete(`http://127.0.0.1:8000/api/calendar/${title}`,{
           headers: {
@@ -549,6 +569,164 @@ const store = createStore({
           context.commit('setMessage','Une erreur s\'est produite, réessayez');
         }
     },
+    //  add Exercices
+    async addExercices(context,value){
+      try{
+         await axios.post(`http://127.0.0.1:8000/api/devoir`,value,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+        context.commit('setMessage','Exercice cree avec succès');
+        }catch(erreur){
+          context.commit('setMessage','Une erreur s\'est produite, réessayez');
+        }
+    },
+    //  add Contenu
+    async addContenu(context,value){
+      try{
+         await axios.post(`http://127.0.0.1:8000/api/contenu`,value,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+        context.commit('setMessage','Contenu cree avec succès');
+        }catch(erreur){
+          context.commit('setMessage','Une erreur s\'est produite, réessayez');
+        }
+    },
+    //  get Contenu
+    async getContenu(context,id){
+      try{
+        const response = await axios.get(`http://127.0.0.1:8000/api/contenu/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+        context.commit('setContenu',response.data);
+        }catch(erreur){
+          console.log(erreur);
+        }
+    },
+    //  get Exercice
+    async getExercice(context,id){
+      try{
+        const response = await axios.get(`http://127.0.0.1:8000/api/devoir/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+        context.commit('setContenu',response.data);
+        }catch(erreur){
+          console.log(erreur);
+        }
+    },
+    //  get Exercice eleve
+    async getExerciceEleve(context,id){
+      try{
+        const response = await axios.get(`http://127.0.0.1:8000/api/accesdevoir/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+        context.commit('setContenu',response.data);
+        }catch(erreur){
+          console.log(erreur);
+        }
+    },
+    //  get Contenu eleve
+    async getContenuEleve(context,id){
+      try{
+        const response = await axios.get(`http://127.0.0.1:8000/api/accescontenu/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+        context.commit('setContenu',response.data);
+        }catch(erreur){
+          console.log(erreur);
+        }
+    },
+    //  get statistique Contenu
+    async getStatistique(context,id){
+      try{
+        const response = await axios.get(`http://127.0.0.1:8000/api/contenu/statistique/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+        context.commit('SetStatistiqueContenu',response.data);
+        }catch(erreur){
+          console.log(erreur);
+        }
+    },
+    //  get statistique Exercice
+    async getStatistiqueExercice(context,id){
+      try{
+        const response = await axios.get(`http://127.0.0.1:8000/api/devoir/statistique/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+        context.commit('SetStatistiqueContenu',response.data);
+        }catch(erreur){
+          console.log(erreur);
+        }
+    },
+    //  get Notification
+    async getNotification(context){
+      try{
+        const response = await axios.get(`http://127.0.0.1:8000/api/notifications`,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+        context.commit('setNotificationMessage',response.data);
+        }catch(erreur){
+          console.log(erreur);
+        }
+    }, 
+    //delete all Notification
+    async deleteNotification(){
+      try{
+        await axios.delete(`http://127.0.0.1:8000/api/notifications`,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+        }catch(erreur){
+          console.log(erreur);
+        }
+    },
+    // get Config
+    async getConfig(context){
+      try{
+        const response = await axios.get(`http://127.0.0.1:8000/api/config`,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+        context.commit('setConfig',response.data)
+        }catch(erreur){
+          console.log(erreur);
+        }
+    },
+    // update Config
+    async updateConfig(context,Config){
+      console.log(Config);
+      
+      try{
+        await axios.post(`http://127.0.0.1:8000/api/config/update`,Config,{
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+         }
+        })
+          context.commit('setMessage','succès');
+        }catch(erreur){
+          context.commit('setMessage','Une erreur s\'est produite, réessayez');
+        }
+    },
+
 
 },
   getters: {
@@ -614,6 +792,18 @@ const store = createStore({
     },
     getDevoirs(state){
       return state.Devoirs;
+    },
+    getContenu(state){
+      return state.Contenu;
+    },
+    getStatistiqueContenu(state){
+      return state.StatistiqueContenu;
+    },
+    getNotificationMessage(state){
+      return state.NotificationMessage;
+    },
+    getConfig(state){
+      return state.Config;
     }
   }
 })

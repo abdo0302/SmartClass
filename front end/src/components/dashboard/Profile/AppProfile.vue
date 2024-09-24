@@ -40,7 +40,7 @@ const DeleteAccount=(id)=>{
 <template>
     <div class="mx-5 mt-3 flex justify-center flex-col items-center">
         <!-- card start -->
-        <div class="bg-white py-3 px-4 shadow-md w-1/2 flex justify-center rounded-xl">
+        <div class="bg-white py-3 px-4 shadow-md w-1/2 max-md:w-full mx-28 flex justify-center rounded-xl">
             <!-- countinar -->
             <div class="flex justify-center items-center w-full gap-3">
                 <!-- logo name -->
@@ -58,7 +58,7 @@ const DeleteAccount=(id)=>{
         </div>
          <!-- card end -->
           <!-- card start -->
-          <div class="bg-white py-3 px-6 shadow-md w-1/2 flex flex-col rounded-xl mt-3 gap-5">
+          <div class="bg-white py-3 px-6 shadow-md w-1/2 max-md:w-full mx-28 flex flex-col rounded-xl mt-3 gap-5">
             <!-- name -->
               <div class="flex flex-col">
                  <label class="font-medium">Name</label>
@@ -82,7 +82,7 @@ const DeleteAccount=(id)=>{
           </div>
           <!-- card end -->
            <!-- button enregistreur -->
-            <div class="w-1/2 mr-auto flex justify-center">
+            <div class="w-1/2 mr-auto flex justify-center mb-40">
                <button @click="modifierProfile" class="mt-7 mr-24 p-2 bg-blue-500 text-white rounded-lg">enregistreur</button> 
             </div>
             <AlertMessage v-if="showMessage==true"/>

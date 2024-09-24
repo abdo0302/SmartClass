@@ -1,16 +1,11 @@
 <script setup>
- import { onMounted ,computed ,watch} from 'vue';
+ import { computed,onMounted} from 'vue';
  import Chart from 'chart.js/auto';
 import { useStore } from 'vuex';
 const store = useStore();
 
 const Statistique=computed(()=>store.getters.getStatistique);
-onMounted(() => {
-    store.dispatch('getstatistique');
-});
-
-watch(Statistique, (newStatistique) => {
-  if (newStatistique !== '') {
+onMounted(()=>{
     const ctx = document.getElementById('myChart');
 
     new Chart(ctx, {
@@ -35,11 +30,12 @@ watch(Statistique, (newStatistique) => {
     ],
     borderWidth: 1
     }]},});
-  }
 });
+    
 </script>
 <template>
-    <div class="w-1/2 bg-white p-3 shadow-md rounded-xl flex justify-center items-center">
-       <canvas class="" id="myChart"></canvas>
+    <div class="w-1/2 max-md:w-full max-md:h-52 bg-white p-3 shadow-md rounded-xl flex justify-center items-center">
+       
+      <canvas class="" id="myChart"></canvas>
     </div>
 </template>

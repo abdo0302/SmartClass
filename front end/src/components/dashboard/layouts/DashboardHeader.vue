@@ -36,7 +36,7 @@ const Dashbordtitle=(value)=>{
 }
 onMounted(() => {
   store.dispatch('me')
-  
+  store.dispatch('getPermissions_role');
 })
 let user_name=ref('');
 let logo=ref('');
@@ -56,11 +56,23 @@ watch(User_info, (User_info) => {
   const Dashbord=(value)=>{
     store.commit('setTitleDashbord',value)
   }
+  const newMessages = computed(() => store.getters.getNotificationMessage);
+const TotaleNotification = ref(0);
 
-  const TotaleNotification = ref(0);
+// Watcher sur newMessages
+watch(newMessages, (newMessage) => {
+  // Vérifiez si newMessage.value est défini et est un tableau
+  if (Array.isArray(newMessage)) {
+    TotaleNotification.value = newMessage.length;
+  } else {
+    TotaleNotification.value = 0; // Si newMessage n'est pas un tableau, on met 0
+  }
+});
+  
 function handleMessage(msg) {
-  TotaleNotification.value = msg;
+  TotaleNotification.value += msg;
 }
+const Permissions_roles=computed(() => store.getters.getPermissions_roles);
 </script>
 <template>
     <!--heder start-->
@@ -74,7 +86,7 @@ function handleMessage(msg) {
             <!--logo start-->
             <img @click="Dashbord('Home')" class="w-32 max-sm:w-28 cursor-pointer" src="../../../assets/img/logo.png" alt="">
           <!--logo end-->
-          <span class="font-semibold text-xl ml-7 cursor-pointer">
+          <span v-if="titleDashbord !=='Afficher'" class="font-semibold text-xl ml-7 cursor-pointer max-md:hidden">
             {{ titleDashbord }}
           </span>
         </div>
@@ -92,14 +104,16 @@ function handleMessage(msg) {
           </button>
           <!--profile-->
           <div @click="toggleMenu" class="flex justify-center items-center gap-2 mr-4 max-md:mr-0 relative cursor-pointer">
-            <span class="font-semibold max-md:hidden cursor-pointer">{{ user_name }}</span>
+            <span class="font-semibold cursor-pointer">{{ user_name }}</span>
+            <div v-if="user_name==''" class="w-12 h-3 bg-slate-400/30 animate-pulse rounded-sm"></div>
             <!--logo profile-->
-            <div class="bg-green-100 flex justify-center items-center h-10 max-sm:h-9 w-10 max-sm:w-9 max rounded-full shadow-sm border cursor-pointer">{{ logo }}</div>
+            <div v-if="user_name !==''" class="bg-green-100 flex justify-center items-center h-10 max-sm:h-9 w-10 max-sm:w-9 max rounded-full shadow-sm border cursor-pointer">{{ logo }}</div>
+            <div v-if="user_name==''" class="bg-slate-400/30 animate-pulse h-10 max-sm:h-9 w-10 max-sm:w-9 max rounded-full shadow-sm"></div>
             <!--menu profile-->
             <div id="profileMenu" class="absolute flex flex-col gap-1 bg-white shadow-md top-12 right-1 h-0 overflow-hidden hover:h-auto px-5" :style="{ height: menuHeight, transition: 'all 1s ease', paddingTop:menuPadding ,borderWidth:menuBorder, borderColor: '#FFF5E4', borderStyle: 'solid'}">
               <span @click="Dashbordtitle('Profile')" class="px-2 py-1 bg-zinc-100 hover:bg-zinc-200 rounded-md cursor-pointer">Profile</span>
               <span @click="logOut" class="px-2 py-1 text-nowrap bg-zinc-100 hover:bg-zinc-200 rounded-md hidden max-sm:flex cursor-pointer">Se deconnecter</span>
-              <span @click="Dashbordtitle('Parametre')" class="px-2 py-1 bg-zinc-100 hover:bg-zinc-200 rounded-md cursor-pointer">Parametre</span>
+              <span v-if="Permissions_roles.roles =='admin'" @click="Dashbordtitle('Parametre')" class="px-2 py-1 bg-zinc-100 hover:bg-zinc-200 rounded-md cursor-pointer">Parametre</span>
             </div>
           </div>
         </div>

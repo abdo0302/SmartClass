@@ -16,7 +16,12 @@ const showAlert=()=>{
 const lesClasses=computed(()=>store.getters.getClasses);
 const TotalClase=ref(0);
 watch(lesClasses, (newlesClasses) => {
-  TotalClase.value=newlesClasses.Classes.length
+  if (newlesClasses =='' || newlesClasses =='Aucun') {
+     TotalClase.value=0
+  }else{
+    TotalClase.value=newlesClasses.Classes.length
+  }
+  
 })
 
 // chart js
@@ -31,6 +36,7 @@ function handleCardShow(msg) {
 }
 const showCardShow=(id)=>{
    CardShow.value=true
+   store.commit('setelevsClass','')
    store.dispatch('getElevs',id)
    store.dispatch('getClass',id)
 }
@@ -61,9 +67,18 @@ const deleteClass=(value)=>{
 
 </script>
 <template>
-    <div class="w-full flex gap-5 py-4 px-9">
+    <div v-if="lesClasses ==''" class="w-full mt-9 flex justify-center items-center h-52">
+      <img class="w-36" src="../../../assets/img/load-32_256.gif" alt="">
+    </div>
+    <div v-else-if="lesClasses =='Aucun'" class=" flex flex-col items-center my-6 mx-9 p-7 bg-white rounded-2xl shadow-lg">
+      <button @click="showAlert" class="bg-blue-600 text-white p-2 text-xs rounded-md h-fit shadow-md shadow-slate-400 hover:shadow-none ml-auto">
+         Ajouter classe
+      </button>
+      <img src="../../../assets/img/animated_emty.gif" class="w-1/2"  alt="">
+    </div>
+    <div v-else class="w-full flex max-md:flex-col gap-5 py-4 px-9">
         <!-- continar start -->
-        <div class="w-full bg-white shadow-xl rounded-xl py-3 px-5">
+        <div  class="w-full bg-white shadow-xl rounded-xl py-3 px-5">
          <!-- {{ lesClasses[0].map(element => element.name) }} -->
          
             <!-- header -->
@@ -78,18 +93,18 @@ const deleteClass=(value)=>{
             </div>
             <!-- body -->
              <!-- table -->
-            <div class="flex flex-col w-full mt-4 gap-1">
+            <div class="flex flex-col w-full mt-6 gap-1">
                 <div class="flex bg-blue-100 py-1 px-3 justify-between items-center rounded-md">
                     <div class="w-2/5 text-sm font-semibold">Name</div>
                     <div class="w-2/5 text-sm font-semibold">Elèves</div>
-                    <div class="w-2/5 text-sm font-semibold">Date de creation</div>
+                    <div class="w-2/5 text-sm font-semibold max-md:hidden">Date de creation</div>
                     <div class="w-2/5 text-end mr-6 text-sm font-semibold">Actes</div>
                 </div>
-                <div class="h-96 overflow-y-auto flex flex-col gap-2">
+                <div class="max-h-96 overflow-y-auto flex flex-col gap-2 mt-3">
                     <div v-for="(lesClasse,i) in lesClasses.Classes" :key="lesClasse.id" class="flex w-full bg-white px-2 items-center">
                        <div class="w-2/5 text-sm flex">{{ lesClasse.name }}</div>
                        <div class="w-2/5 text-sm ml-5">{{ lesClasses.eleve[i] }}</div>
-                       <div class="w-2/5 text-sm">{{ formatDate(lesClasse.created_at) }}</div>
+                       <div class="w-2/5 text-sm max-md:hidden">{{ formatDate(lesClasse.created_at) }}</div>
                        <div class="w-2/5 text-end flex justify-end gap-3"><button @click="showCardShow(lesClasse.id)" class="bg-orange-400 text-white px-3 rounded-md shadow-md hover:shadow-none"><i class="fa-solid fa-eye text-sm"></i></button><button @click="deleteClass(lesClasse.id)" class="bg-red-400 text-white px-3 rounded-md shadow-md hover:shadow-none"><i class="fa-solid fa-trash"></i></button></div>
                     </div>
                 </div>

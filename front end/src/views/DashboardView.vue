@@ -12,11 +12,14 @@ import AppBoard from '@/components/dashboard/whiteboard/AppBoard.vue';
 import AppCalendrier from '@/components/dashboard/Calendrier/AppCalendrier.vue';
 import AppContenus from '@/components/dashboard/Home/AppContenus.vue';
 import AppExercices from '@/components/dashboard/Home/AppExercices.vue';
+import AppAfficher from '@/components/dashboard/Home/AppAfficher.vue';
+import AppHure from '@/components/dashboard/Hure/AppHure.vue';
 // import AppNotif from '@/components/AppNotification.vue';
 import { useStore } from 'vuex';
   import { computed } from 'vue';
 const store = useStore();
 const titleDashbord=computed(() => store.getters.getTitleDashbord);
+const isCloseSideBar=computed(()=>store.getters.getCloseSideBar)
 </script>
 <template>
   <div class="bg-slate-100 z-50">
@@ -27,18 +30,20 @@ const titleDashbord=computed(() => store.getters.getTitleDashbord);
        <!--nav bar start--> 
      <DashboardNavBar/>
           <!-- nav bar end -->
-          <div class="mt-16 pt-2 ml-56 w-full max-xl:ml-20 max-sm:ml-0">
-            <div v-if="titleDashbord=='Home'"><AppHome/></div>
-            <div v-if="titleDashbord=='Class'"><AppClass/></div>
-            <div v-if="titleDashbord=='Meet'"><AppMeet/></div>
-            <div v-if="titleDashbord=='Mes Notes'"><AppNote/></div>
-            <div v-if="titleDashbord=='whiteboard'"><AppBoard/></div>
-            <div v-if="titleDashbord=='Statistique'"><AppStatistique/></div>
-            <div v-if="titleDashbord=='Profile'"><AppProfile/></div>
-            <div v-if="titleDashbord=='Parametre'"><AppParametre/></div>
-            <div v-if="titleDashbord=='Calendrier'"><AppCalendrier/></div>
-            <div v-if="titleDashbord=='Contenus'"><AppContenus/></div>
-            <div v-if="titleDashbord=='Exercices'"><AppExercices/></div>
+          <div :class="['mt-16 pt-2 w-full max-xl:ml-20 max-sm:ml-0',isCloseSideBar==true?'ml-24':'ml-56']">
+            <div class="bg-slate-100" v-if="titleDashbord=='Home'"><AppHome/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Session'"><AppClass/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Meet'"><AppMeet/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Mes Notes'"><AppNote/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='whiteboard'"><AppBoard/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Statistique'"><AppStatistique/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Profile'"><AppProfile/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Parametre'"><AppParametre/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Calendrier'"><AppCalendrier/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Contenus'"><AppContenus/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Exercices'"><AppExercices/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Afficher'"><AppAfficher/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Hure'"><AppHure/></div>
           </div>
           <!-- <AppNotif/> -->
           

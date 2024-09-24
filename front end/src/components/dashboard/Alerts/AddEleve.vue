@@ -41,6 +41,7 @@ watch(Message, (newmessage) => {
   if (newmessage !== '') {
     setTimeout(()=>{
       CardShow.value=false
+      store.commit('setMessage','');
       sendMessage()
       store.dispatch('getElevs',inscrit.in_classe);
       store.dispatch('getClasses');
@@ -49,7 +50,7 @@ watch(Message, (newmessage) => {
 </script>
 <template>
     <div class="bg-black/70 fixed top-0 right-0 w-full h-screen  z-50 flex justify-center items-center">
-        <div class="bg-white p-5 rounded-xl flex flex-col w-1/3 h-1/2 items-center relative">
+        <div class="bg-white p-5 rounded-xl flex flex-col w-1/3 max-md:w-full mx-9 h-1/2 items-center relative">
             <i @click="sendMessage" class="fa-solid fa-x absolute top-2 left-2 hover:bg-slate-300 p-2 rounded-full"></i>
             <span class="text-xl font-semibold">Ajouter une Eleve</span>
             <div class="w-full flex flex-col justify-center items-center mt-6">

@@ -49,7 +49,7 @@ watch(Message, (newmessage) => {
 <template>
     <div class="bg-black/60 w-full h-screen fixed top-0 left-0 z-40 flex justify-center items-center">
         <!-- card -->
-        <div class="bg-white p-9 relative rounded-lg flex flex-col w-1/2 h-96">
+        <div class="bg-white p-9 relative rounded-lg flex flex-col w-1/2 max-md:w-full mx-9 h-96">
          <i @click="sendMessage" class="fa-solid fa-x absolute top-2 left-2 hover:bg-slate-300 p-2 rounded-full"></i>
          <!-- headr card-->
             <div class="flex justify-between items-center">
@@ -62,23 +62,28 @@ watch(Message, (newmessage) => {
             </div>
             <!-- body card -->
             <div>
+              <!-- loding start -->
+               <div v-if="elevsClass==''" class="flex justify-center"><img  class="animate-spin" src="../../../assets/img/pngwing.com (12).png" alt=""></div>
+                 <!-- loding end -->
+                 <div v-else-if="elevsClass=='Aucun'" class="flex justify-center"><img  class="w-64" src="../../../assets/img/animated_emty.gif" alt=""></div>
                  <!-- table -->
-            <div class="flex flex-col w-full mt-4 gap-1">
+            <div v-else class="flex flex-col w-full mt-4 gap-1">
                 <div class="flex bg-blue-100 py-1 px-3 justify-between items-center rounded-md">
                     <div class="w-2/5 text-sm font-semibold">Name</div>
-                    <div class="w-2/5 text-sm font-semibold">Email</div>
-                    <div class="w-2/5 text-sm font-semibold ml-5">Date de creation</div>
-                    <div class="w-2/5 text-center text-sm font-semibold">Actes</div>
+                    <div class="w-2/5 text-sm font-semibold max-md:hidden">Email</div>
+                    <div class="w-2/5 text-sm font-semibold ml-5 max-md:hidden">Date de creation</div>
+                    <div class="w-2/5 text-center max-md:text-start text-sm font-semibold">Actes</div>
                 </div>
-                <div class="h-60 overflow-y-auto flex flex-col gap-2">
+                <div class="max-h-60 overflow-y-auto flex flex-col gap-2 mt-2">
                     <div v-for="elevClass in elevsClass" :key="elevClass.id" class="flex w-full bg-white px-2 items-center">
                        <div class="w-2/5 text-sm flex">{{ elevClass.name }}</div>
-                       <div class="w-2/5 text-sm -ml-7">{{ elevClass.email }}</div>
-                       <div class="w-2/5 text-sm flex justify-center">{{ formatDate(elevClass.created_at) }}</div>
+                       <div class="w-2/5 text-sm -ml-7 max-md:hidden">{{ elevClass.email }}</div>
+                       <div class="w-2/5 text-sm flex justify-center max-md:hidden">{{ formatDate(elevClass.created_at) }}</div>
                        <div class="w-2/5 text-end flex justify-center"><button @click="showCardShow(elevClass.id)" class="bg-red-400 text-white px-3 rounded-md shadow-md hover:shadow-none"><i class="fa-solid fa-trash"></i></button></div>
                     </div>
                 </div>
             </div>
+            
             </div>  
         </div>
     </div>

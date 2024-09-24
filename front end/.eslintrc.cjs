@@ -6,6 +6,7 @@ module.exports = {
     node: true, // Ajoutez cette ligne pour activer les variables globales Node.js
     browser: true,
     es2021: true,
+    jest: true,
   },
   root: true,
   'extends': [
