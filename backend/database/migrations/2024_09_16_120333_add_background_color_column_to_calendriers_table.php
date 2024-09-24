@@ -12,10 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('calendriers', function (Blueprint $table) {
-            $table->unsignedBigInteger('in_creature');
-            $table->foreign("in_creature")->references("id")->on("users")->onDelete('cascade');
-            $table->unsignedBigInteger('id__session');
-            $table->foreign("id__session")->references("id")->on("classes")->onDelete('cascade');
+            $table->string('backgroundColor');
         });
     }
 

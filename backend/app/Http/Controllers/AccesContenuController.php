@@ -11,7 +11,7 @@ use App\Models\Voir;
 class AccesContenuController extends Controller
 {
     public function showAll(Request $request){
-        // get les contenu par class
+        // get les contenu par Session
 
         // Récupérer l'utilisateur actuellement authentifié 
         $user = Auth::user();
@@ -25,7 +25,7 @@ class AccesContenuController extends Controller
             }
             // Retourner une réponse JSON
 
-        return response()->json([$Contenus], 201);  
+        return response()->json($Contenus, 201);  
         }else {
              // Retourner un message d'erreur 
             return response()->json(['message' => 'Non autorisé'], 403);
@@ -54,7 +54,7 @@ class AccesContenuController extends Controller
             }
             
 
-                return response()->json([$Contenus], 201);  
+                return response()->json($Contenus, 201);  
         }else {
              // Retourner un message d'erreur 
             return response()->json(['message' => 'Non autorisé'], 403);

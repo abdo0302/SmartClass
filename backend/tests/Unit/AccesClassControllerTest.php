@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use App\Models\Sinscrit;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -18,7 +18,7 @@ class AccesClassControllerTest extends TestCase
         $user->assignRole('eleve');
 
         // Crée une nouvelle classe
-        $classe = Classe::factory()->create();
+        $classe = Session::factory()->create();
 
          // Génère un jeton JWT pour l'utilisateur
         $token = JWTAuth::fromUser($user);

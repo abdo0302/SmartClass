@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Sinscrit;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use Illuminate\Support\Facades\Auth;
 
 class CheckAccesRoomPermission
@@ -23,7 +23,7 @@ class CheckAccesRoomPermission
         if ($user->hasRole('admin')) {
             return $next($request);
         } elseif ($user->hasRole('professeur')) {
-            $Classe=Classe::find($id_class);
+            $Classe=Session::find($id_class);
             if ($Classe->in_user==$user->id) {
                 return $next($request);
             }else {

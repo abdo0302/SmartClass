@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Faker\Factory as Faker;
@@ -26,7 +26,7 @@ class ContenuControllerTest extends TestCase
             $token = JWTAuth::fromUser($user);
 
             // Crée une classe fictive associée à l'utilisateur
-            $classe = Classe::factory()->create(['in_user' => $user->id]);
+            $classe = Session::factory()->create(['in_user' => $user->id]);
 
             // Effectue une requête POST pour créer un contenu
             $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/contenu', [
@@ -53,7 +53,7 @@ class ContenuControllerTest extends TestCase
             $token = JWTAuth::fromUser($user);
 
              // Crée une classe fictive associée à l'utilisateur
-            $classe = Classe::factory()->create(['in_user' => $user->id]);
+            $classe = Session::factory()->create(['in_user' => $user->id]);
             // Effectue une requête GET pour afficher tous les contenus de la classe
             $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/contenus/'. $classe->id);
             // Vérifie que la réponse a le statut HTTP 200

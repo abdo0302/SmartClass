@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InsctireClasseEmail;
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\Notification;
+use App\Models\Classe as Session;
 use App\Services\AblyNotificationService;
 
 class SinscritController extends Controller
@@ -51,7 +52,7 @@ class SinscritController extends Controller
 
         // Trouve l'élève et la classe correspondant aux ID fournis
         $eleve=User::findOrFail($id_eleve);
-        $classe=Classe::findOrFail($id_classe);
+        $classe=Session::findOrFail($id_classe);
 
         // Prépare les données pour l'email
         $data=[
@@ -67,6 +68,10 @@ class SinscritController extends Controller
             Mail::to($eleve->email)->send(new InsctireClasseEmail($data));
             $message = 'Vous êtes inscrit dans la class '.$classe->name;
             $this->ablyNotificationService->sendNotification($eleve->token, $message);
+            Notification::create([
+                'title'=>$message,
+                'user'=>$eleve->id
+            ]);
             // Renvoie une réponse JSON
             return response()->json(['message' => 'sinscrit avec succès'], 201);
         } else {

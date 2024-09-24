@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use App\Models\Sinscrit;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -27,7 +27,7 @@ class SinscritControllerTest extends TestCase
 
         // Crée un élève et une classe associée à l'utilisateur
         $eleve = User::factory()->create();
-        $classe = Classe::factory()->create(['in_user' => $user->id]);
+        $classe = Session::factory()->create(['in_user' => $user->id]);
 
         // Envoi d'une requête POST
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/inscrit', [
@@ -54,7 +54,7 @@ class SinscritControllerTest extends TestCase
         $token = JWTAuth::fromUser($user);
 
         // Crée une classe associée à l'utilisateur et une inscription pour cette classe
-        $classe = Classe::factory()->create(['in_user' => $user->id]);
+        $classe = Session::factory()->create(['in_user' => $user->id]);
         $sinscrit = Sinscrit::factory()->create(['in_classe' => $classe->id]);
 
         // Envoie une requête GET
@@ -77,7 +77,7 @@ class SinscritControllerTest extends TestCase
         $token = JWTAuth::fromUser($user);
 
         // Crée une classe associée à l'utilisateur et une inscription pour cette classe
-        $classe = Classe::factory()->create(['in_user' => $user->id]);
+        $classe = Session::factory()->create(['in_user' => $user->id]);
         $sinscrit = Sinscrit::factory()->create(['in_classe' => $classe->id]);
 
         // Envoie une requête DELETE

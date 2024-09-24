@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use App\Models\User;
 
 /**
@@ -20,7 +20,7 @@ class SinscritFactory extends Factory
     {
         return [
            'in_eleve' =>User::factory(),
-           'in_classe' => Classe::factory(),
+           'in_classe' => Session::factory(),
         ];
     }
 }

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Sinscrit;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use Illuminate\Support\Facades\Auth;
 
 class CheckSinscriDeletPermission
@@ -28,7 +28,7 @@ class CheckSinscriDeletPermission
         $in_classe = $Sinscrit->in_classe;
 
          // Trouve la classe correspondant à l'ID de la classe
-        $classe=Classe::find($in_classe);
+        $classe=Session::find($in_classe);
 
         // Obtient l'utilisateur actuellement authentifié
         $user=Auth::user();

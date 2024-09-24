@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('calendriers', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->dateTime('start');
-            $table->dateTime('end');
+            $table->unsignedBigInteger('user');
+            $table->foreign("user")->references("id")->on("users")->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('calendriers');
+        Schema::dropIfExists('notifications');
     }
 };

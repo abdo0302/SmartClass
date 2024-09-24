@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use App\Models\Devoir;
 use App\Models\Correction;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +22,7 @@ class CorrectionControllerTest extends TestCase
         $permission = Permission::find(13);
         $user->givePermissionTo($permission);
         $token = JWTAuth::fromUser($user);
-        $classe = Classe::factory()->create(['in_user' => $user->id]);
+        $classe = Session::factory()->create(['in_user' => $user->id]);
         $devoir = Devoir::factory()->create(['in_classe' => $classe->id,'in_creature'=>$user->id]);
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/Correction', [
             'description' => 'description Test',
@@ -37,7 +37,7 @@ class CorrectionControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $token = JWTAuth::fromUser($user);
-        $classe = Classe::factory()->create(['in_user' => $user->id]);
+        $classe = Session::factory()->create(['in_user' => $user->id]);
         $devoir = Devoir::factory()->create(['in_classe' => $classe->id,'in_creature'=>$user->id]);
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/Correction', [
             'description' => 'description Test',
@@ -54,7 +54,7 @@ class CorrectionControllerTest extends TestCase
         $permission = Permission::find(13);
         $admin->givePermissionTo($permission);
         $admin->assignRole('admin');
-        $classe = Classe::factory()->create(['in_user' => $admin->id]);
+        $classe = Session::factory()->create(['in_user' => $admin->id]);
         $devoir = Devoir::factory()->create(['in_classe' => $classe->id,'in_creature'=>$admin->id]);
         $correction = Correction::factory()->create(['id_devoir' => $devoir->id]);
 

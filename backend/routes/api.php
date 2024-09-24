@@ -16,6 +16,8 @@ use App\Http\Controllers\AccesSessionLiveController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\CalendrierController;
 use App\Http\Controllers\StatistiqueController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ParametreController;
 
 
 // Route::get('/user', function (Request $request) {
@@ -127,17 +129,16 @@ Route::middleware(['auth:api'])->group(
 Route::middleware(['auth:api'])->group(
     function () {
         Route::post('/calendar', [CalendrierController::class, 'create']);
-        Route::get('/calendar', [CalendrierController::class, 'showAll']);
+        Route::get('/calendars/{id}', [CalendrierController::class, 'showAll']);
         Route::delete('/calendar/{title}', [CalendrierController::class, 'destroy']);
     }
 );
 
-// Correction
+// Notification
 Route::middleware(['auth:api'])->group(
     function () {
-        Route::post('/Correction', [CorrectionController::class, 'create'])->middleware('CheckCreateCorrectionPermission');
-        Route::get('/Correction/{id}', [CorrectionController::class, 'show'])->middleware('CheckShowCorrectionDevoirPermission');
-        Route::delete('/Correction/{id}', [CorrectionController::class, 'destroy']);
+        Route::get('/notifications', [NotificationController::class, 'showAll']);
+        Route::delete('/notifications', [NotificationController::class, 'destroy']);
     }
 );
 
@@ -162,5 +163,13 @@ Route::middleware(['auth:api'])->group(
 Route::middleware(['auth:api'])->group(
     function () {
         Route::get('/statistique', [StatistiqueController::class, 'Statistique']);
+    }
+);
+
+// Parametre
+Route::middleware(['auth:api'])->group(
+    function () {
+        Route::get('/config', [ParametreController::class, 'showAll']);
+        Route::post('/config/update', [ParametreController::class, 'update']);
     }
 );

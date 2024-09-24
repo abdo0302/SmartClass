@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 
 class CheckClassPermission
 {
@@ -21,7 +21,7 @@ class CheckClassPermission
         // Récupérer l'identifiant de la classe depuis la requête
         $id=$request->id;
          // Rechercher la classe par son identifiant
-        $Classe=Classe::find($id);
+        $Classe=Session::find($id);
         if(!$Classe){
             return response()->json(['message' => 'NULL']);
         }

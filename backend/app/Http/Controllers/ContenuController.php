@@ -6,12 +6,13 @@ use App\Models\Contenu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use App\Models\Sinscrit;
 use App\Mail\RappelContenulEmail;
 use App\Models\Voir;
 use Illuminate\Support\Facades\Mail;
 use App\Services\AblyNotificationService;
+use App\Models\Notification;
 
 class ContenuController extends Controller
 {
@@ -34,7 +35,7 @@ class ContenuController extends Controller
         $validatedData = $request->validate([
             'titre' => 'required|string',
             'description' => 'required|string',
-            'file' => 'required|mimes:jpeg,png,jpg,gif,svg,webp,pdf,docx,mp4|max:2048',
+            'file' => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp,pdf,docx,mp4|max:2048',
             'in_classe' => 'required|integer',
         ]);   
 
@@ -62,7 +63,7 @@ class ContenuController extends Controller
 
         if ($contenu) {
             $Sinscrits=Sinscrit::where('in_classe', $request->in_classe)->get();
-             // Envoi d'e-mails aux élèves inscrits à la classe concernée
+             // Envoi d'e-mails aux élèves inscrits à la Session concernée
             $email_eleves=[];
             foreach ($Sinscrits as $sinscrit) {
                 $eleve=User::where('id', $sinscrit->in_eleve)->get();
@@ -70,6 +71,10 @@ class ContenuController extends Controller
 
                 $message = 'Un Contenu intitulé '.$validatedData['titre'].' a été ajouté';
                 $this->ablyNotificationService->sendNotification($eleve[0]->token, $message);
+                Notification::create([
+                    'title'=>$message,
+                    'user'=>$eleve[0]->id
+                ]);
             }
             
             return response()->json(['message' => 'Contenu cree avec succes'], 201);
@@ -122,7 +127,7 @@ class ContenuController extends Controller
         }   
         
         if ($Contenu) {
-            return response()->json(['Contenu' => $Contenu], 200);
+            return response()->json($Contenu, 200);
         }else{
              // Retourner un message d'erreur 
             return response()->json(['message' => 'Aucun contenu trouvé'], 404);
@@ -189,6 +194,9 @@ class ContenuController extends Controller
            $Contenu=Contenu::where('in_creature', $user->id)->limit(4)->get();
         }     
 
+        if (count($Contenu)==0) {
+            return response()->json('Aucun', 200);
+        }
         if ($Contenu) {
             return response()->json($Contenu, 200);
         }else{
@@ -227,12 +235,17 @@ class ContenuController extends Controller
         if (!$user->hasPermissionTo('gere les contenus', 'web')) {
             return response()->json(['message' => 'Non autorisé'], 403);
         } 
-        $statistique=Voir::where('in_contenu', $id)->first();
-        if ($statistique) {
-            $total=count($statistique);
+        $users=[];
+        $statistiques=Voir::where('in_contenu', $id)->get();
+        if ($statistiques) {
+            $total=count($statistiques);
+            foreach($statistiques as $statistique){
+                $eleve=User::where('id',$statistique->in_user)->first(['name','email']);
+                array_push($users,$eleve);
+            }
             return response()->json([
                 'total' => $total,
-                'statistique'=>$statistique
+                'statistique'=>$users
             ], 200);
         }else{
             return response()->json(['total' => 0], 200);

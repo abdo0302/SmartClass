@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Faker\Factory as Faker;
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Spatie\Permission\Models\Permission;
@@ -67,7 +67,7 @@ class ClasseControllerTest extends TestCase
         $token = JWTAuth::fromUser($user);
 
         // Création d'une classe appartenant à l'utilisateur
-        $classe = Classe::factory()->create(['in_user' => $user->id]);
+        $classe = Session::factory()->create(['in_user' => $user->id]);
 
         // Envoi d'une requête DELETE pour supprimer la classe
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->delete('/api/classe/' . $classe->id);
@@ -90,7 +90,7 @@ class ClasseControllerTest extends TestCase
         $token = JWTAuth::fromUser($user);
 
         // Création d'une classe appartenant à l'utilisateur
-        $classe = Classe::factory()->create(['in_user' => $user->id]);
+        $classe = Session::factory()->create(['in_user' => $user->id]);
 
         // Envoi d'une requête POST pour mettre à jour la classe
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/classe/update/' . $classe->id);

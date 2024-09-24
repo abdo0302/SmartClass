@@ -12,6 +12,8 @@ class Calendrier extends Model
         'title',
         'start',
         'end',
-        'in_creature'
+        'in_creature',
+        'id__session',
+        'backgroundColor'
     ];
 }

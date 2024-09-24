@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use App\Models\Contenu;
 use App\Models\Sinscrit;
 use App\Models\Devoir;
@@ -17,7 +17,7 @@ class StatistiqueController extends Controller
         $user = Auth::user();
         if ($user->hasRole('admin')) {
          $total_users=User::count();
-         $total_classes=Classe::count();
+         $total_classes=Session::count();
          $total_contenu=Contenu::count();
          $total_eleve=Sinscrit::count();
          $total_devoir=Devoir::count();

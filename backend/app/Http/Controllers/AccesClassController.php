@@ -5,39 +5,39 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use App\Models\Sinscrit;
 
 class AccesClassController extends Controller
 {
+    // Affiche toutes les classes de eleve
     public function showAll()
     {
-        // Récupérer l'utilisateur actuellement authentifié
+        // Récupère l'utilisateur connecté
         $user = Auth::user();
-        $id=$user->id;
+        $id=$user->id;  //// ID de l'utilisateur
         
-         // Vérifie si l'utilisateur a le rôle 'eleve'
+
+        // Si l'utilisateur est un élève
         if ($user->hasRole('eleve')) {
 
-            // Initialise un tableau pour stocker les classes
-            $classes=[];
+            // Tableau des classes
+            $Sessions=[];
 
-            // Récupère toutes les inscriptions (Sinscrit) pour l'utilisateur authentifié
+            // Récupère les inscriptions de l'élève
             $sinscrits = Sinscrit::where('in_eleve', $id)->get();
-            // Parcourt chaque inscription pour trouver les classes associées
-            
+            // Pour chaque inscription, récupère la classe
             foreach ($sinscrits as $sinscrit) {
-                // Trouve la classe correspondant à l'ID dans l'inscription
-                $classe=Classe::findOrFail($sinscrit->in_classe);
-
-                 // Ajoute la classe au tableau des classes
-                array_push($classes,$classe);
+                $Session=Session::findOrFail($sinscrit->in_classe);
+                // Ajoute la classe au tableau
+                array_push($Sessions,$Session);
             }
-            if (count($classes)==0) {
+            // Si l'élève n'a aucune classe
+            if (count($Sessions)==0) {
                 return response()->json('Aucun', 201);
             }
-            // Retourner une réponse JSON
-            return response()->json(['Classes'=>$classes], 201);
+            // Retourne les classes
+            return response()->json(['Classes'=>$Sessions], 201);
         }
     }
 }

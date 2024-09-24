@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use App\Models\Devoir;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -28,7 +28,7 @@ class DevoirControllerTest extends TestCase
        $token = JWTAuth::fromUser($user);
  
        // Crée une classe associée à l'utilisateur
-       $classe = Classe::factory()->create(['in_user' => $user->id]);
+       $classe = Session::factory()->create(['in_user' => $user->id]);
 
        //Effectue une requête POST à l'endpoint API pour créer un devoir
        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/devoir', [
@@ -54,7 +54,7 @@ class DevoirControllerTest extends TestCase
        $token = JWTAuth::fromUser($user);
 
        // Crée une classe associée à l'utilisateur
-       $classe = Classe::factory()->create(['in_user' => $user->id]);
+       $classe = Session::factory()->create(['in_user' => $user->id]);
 
        // Génère un numéro aléatoire pour le titre du devoir
        $randomNumber=rand(1, 40);
@@ -83,7 +83,7 @@ class DevoirControllerTest extends TestCase
        $token = JWTAuth::fromUser($user);
 
        // Crée une classe associée à l'utilisateur
-       $classe = Classe::factory()->create(['in_user' => $user->id]);
+       $classe = Session::factory()->create(['in_user' => $user->id]);
 
        // Crée un devoir associé à la classe et à l'utilisateur
        $devoir = Devoir::factory()->create(['in_classe' => $classe->id,'in_creature'=>$user->id]);
@@ -110,7 +110,7 @@ class DevoirControllerTest extends TestCase
        // Génère un token JWT pour l'utilisateur créé
        $token = JWTAuth::fromUser($user);
        // Crée une classe associée à l'utilisateur
-       $classe = Classe::factory()->create(['in_user' => $user->id]);
+       $classe = Session::factory()->create(['in_user' => $user->id]);
 
        // Crée un devoir associé à la classe et à l'utilisateur
        $devoir = Devoir::factory()->create(['in_classe' => $classe->id,'in_creature'=>$user->id]);
@@ -134,7 +134,7 @@ class DevoirControllerTest extends TestCase
        // Génère un token JWT pour l'utilisateur créé
        $token = JWTAuth::fromUser($user);
        // Crée une classe associée à l'utilisateur
-       $classe = Classe::factory()->create(['in_user' => $user->id]);
+       $classe = Session::factory()->create(['in_user' => $user->id]);
 
        // Effectue une requête GET à l'endpoint API pour obtenir la liste des devoirs pour la classe
        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/devoirs/'.$classe->id);

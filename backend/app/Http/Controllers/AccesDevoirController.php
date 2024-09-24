@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Auth;
 class AccesDevoirController extends Controller
 {
     public function showAll(Request $request){
-        // get les Devoir par class
+        // get les Devoir par Session
 
         // Récupérer l'utilisateur actuellement authentifié
         $user = Auth::user();
         
-         // Vérifie si l'utilisateur a le rôle 'eleve'  Aucun
+         // Vérifie si l'utilisateur a le rôle 'eleve'  
         if ($user->hasRole('eleve')) {
             $Devoirs = Devoir::where('in_classe', $request->id)->get();  
 
@@ -23,7 +23,7 @@ class AccesDevoirController extends Controller
                 return response()->json('Aucun', 201); 
             }
             // Retourner une réponse JSON
-        return response()->json([$Devoirs], 201);  
+        return response()->json($Devoirs, 201);  
         }else {
              // Retourner un message d'erreur 
             return response()->json(['message' => 'Non autorisé'], 403);
@@ -50,7 +50,7 @@ class AccesDevoirController extends Controller
             );
             }
             
-                return response()->json([$Devoir], 201);  
+                return response()->json($Devoir, 201);  
         }else {
              // Retourner un message d'erreur 
             return response()->json(['message' => 'Non autorisé'], 403);

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use Illuminate\Support\Facades\Auth;
 
 class CheckSinscriPermission
@@ -22,7 +22,7 @@ class CheckSinscriPermission
 
         // Trouve la classe correspondant à l'ID fourni
        
-        $classe=Classe::find($id);
+        $classe=Session::find($id);
         if ($classe) {
             // Obtient l'utilisateur actuellement authentifié
             $user=Auth::user();

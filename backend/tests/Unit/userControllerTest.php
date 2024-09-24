@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\Classe as Session;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Faker\Factory as Faker;
