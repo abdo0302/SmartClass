@@ -153,21 +153,21 @@ const ShowStatistiqueExercice=(id)=>{
         </div>
                 <!-- contenar end-->
     </div>
-    <div v-if="Permissions_roles.roles =='eleve'" class="flex flex-wrap justify-center items-center h-96 gap-7" >
+    <div v-if="Permissions_roles.roles =='eleve'" class="flex justify-center items-center h-96 gap-7" >
         <!-- contenar start -->
-        <div @click="titleDashbord('Exercices')" class="bg-stone-200 shadow-lg  rounded-lg w-1/4 border-2 border-slate-300 hover:border-slate-400 hover:scale-105">
+        <div @click="titleDashbord('Exercices')" class="bg-stone-200 shadow-lg  rounded-lg w-1/4 max-md:w-1/3 border-2 border-slate-300 hover:border-slate-400 hover:scale-105">
             <img class="w-full h-36 rounded-t-md" src="../../../assets/img/image_devoir.jpg" alt="">
             <div class="px-3 flex flex-col gap-4">
-                <span class="text-2xl font-semibold mb-2">les exercices</span>
+                <span class="text-2xl max-md:text-xl font-semibold mb-2 ">les exercices</span>
             </div>
             
         </div>
         <!-- contenar end -->
          <!-- contenar start -->
-        <div @click="titleDashbord('Contenus')" class="bg-stone-200 shadow-lg rounded-lg w-1/4 border-2 border-slate-300 hover:border-slate-400 hover:scale-105">
+        <div @click="titleDashbord('Contenus')" class="bg-stone-200 shadow-lg rounded-lg w-1/4 max-md:w-1/3 border-2 border-slate-300 hover:border-slate-400 hover:scale-105">
             <img class="w-full h-36 rounded-t-md" src="../../../assets/img/imag_contenus.jpg" alt="">
             <div class="px-3 flex flex-col gap-4">
-                <span class="text-2xl font-semibold mb-2">les contenus</span>
+                <span class="text-2xl max-md:text-xl font-semibold mb-2">les contenus</span>
             </div>
         </div>
     </div>
