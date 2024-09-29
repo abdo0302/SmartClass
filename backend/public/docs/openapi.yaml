@@ -1,0 +1,218 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/auth/login:
+    post:
+      summary: ''
+      operationId: postApiAuthLogin
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/auth/register:
+    post:
+      summary: ''
+      operationId: postApiAuthRegister
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: prqwtaranb
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: kaylie59@example.org
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: ']}!-A&OAXe"'
+                role:
+                  type: string
+                  description: ''
+                  example: eleve
+                  enum:
+                    - eleve
+                    - professeur
+              required:
+                - name
+                - email
+                - password
+                - role
+      security: []
+  /api/me:
+    post:
+      summary: ''
+      operationId: postApiMe
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/logout:
+    post:
+      summary: ''
+      operationId: postApiLogout
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/refresh:
+    post:
+      summary: ''
+      operationId: postApiRefresh
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/classe:
+    post:
+      summary: ''
+      operationId: postApiClasse
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: nihil
+                date_creation:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2024-08-03T12:37:21'
+              required:
+                - name
+                - date_creation
+      security: []
+  /api/classes:
+    get:
+      summary: ''
+      operationId: getApiClasses
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/classe/{id}':
+    get:
+      summary: ''
+      operationId: getApiClasseId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiClasseId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the classe.'
+        example: eos
+        required: true
+        schema:
+          type: string
+  '/api/classe/update/{id}':
+    post:
+      summary: ''
+      operationId: postApiClasseUpdateId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: atque
+                date_creation:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2024-08-03T12:37:21'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the update.'
+        example: eaque
+        required: true
+        schema:
+          type: string
+tags:
+  -
+    name: Endpoints
+    description: ''
