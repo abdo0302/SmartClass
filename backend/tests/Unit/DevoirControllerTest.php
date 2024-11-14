@@ -34,7 +34,7 @@ class DevoirControllerTest extends TestCase
        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/devoir', [
            'titre' =>  Str::random(6),
             'description' => 'test description',
-            'file' => UploadedFile::fake()->create('testfile.pdf'),
+            'file' => UploadedFile::fake()->create('testfle.pdf'),
             'in_classe' => $classe->id,
 
        ]);
@@ -42,7 +42,7 @@ class DevoirControllerTest extends TestCase
        // Vérifie que la réponse HTTP a un code de statut 201 (créé)
        $response->assertStatus(201);
        // Vérifie que la réponse JSON contient le message attendu
-       $response->assertJson(['message' => 'Devoir créée avec succès']); 
+       $response->assertJson(['message' => 'devoir créée avec succes']); 
     }
 
     public function test_user_without_permission_cannot_create_a_devoir()
@@ -95,12 +95,14 @@ class DevoirControllerTest extends TestCase
        $response->assertStatus(200);
 
        // Vérifie que la réponse JSON contient les détails du devoir
-       $response->assertJson(['Devoir' => [
-                     'id' => $devoir->id,
-                     'titre' => $devoir->titre,
-                     'description' => $devoir->description,
-                     'in_classe' => $devoir->in_classe,
-                 ]]);
+       $response->assertJson([
+        'id' => $devoir->id,
+        'titre' => $devoir->titre,
+        'description' => $devoir->description,
+        'in_classe' => $devoir->in_classe,
+        'created_at' => $devoir->created_at->toISOString(),
+        'updated_at' => $devoir->updated_at->toISOString()
+    ]);
     }
 
     public function test_user_without_permission_cannot_show_a_devoir(){

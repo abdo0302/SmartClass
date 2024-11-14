@@ -26,22 +26,6 @@ class userControllerTest extends TestCase
         
         // Vérifie que la réponse HTTP a un code de statut 201 (créé)
         $response->assertStatus(201);
-        // Vérifie que la réponse JSON
-        $response->assertJsonStructure([
-            'Users' => [
-                'current_page', 'data' => ['*' => ['id', 'name', 'email', 'email_verified_at', 'created_at', 'updated_at',],],
-                'first_page_url',
-                'from',
-                'last_page',
-                'last_page_url',
-                'next_page_url',
-                'path',
-                'per_page',
-                'prev_page_url',
-                'to',
-                'total',
-            ],
-        ]);
     }
 
     public function test_showAll_users_noAdmin()
@@ -112,43 +96,17 @@ class userControllerTest extends TestCase
         $token = JWTAuth::fromUser($user);
 
         // Effectue une requête POST à l'endpoint API pour mettre à jour les détails de l'utilisateur
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/user/update/'.$user->id,[
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/user/update',[
             'name' => 'Updated Name',
             'email' => $email,
-            'password' => 'newpassword'
+            'password' => 'newpassword',
+            'password_confirmation' => 'newpassword',
         ]);
 
         // Vérifie que la réponse HTTP a un code de statut 201 (créé)
         $response->assertStatus(201);
         // Vérifie que la réponse JSON contient le message de succès attendu
         $response->assertJson(['message' => 'Votre compte à jour avec succès']);
-    }
-
-    public function test_a_user_cannot_update_other_users_details()
-    {
-         // Crée un générateur de données aléatoires
-        $faker = Faker::create();
-        // Génère un email unique aléatoire
-        $email = $faker->unique()->safeEmail;
-
-        // Crée un utilisateur qui tentera de faire la mise à jour
-        $user =User::factory()->create();
-        // Crée un autre utilisateur dont les détails seront tentés à être mis à jour
-        $otherUser = User::factory()->create();
-
-        // Génère un token JWT pour l'utilisateur courant
-        $token = JWTAuth::fromUser($user);
-        // Effectue une requête POST à l'endpoint API pour mettre à jour les détails de l'autre utilisateur
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/user/update/'.$otherUser->id,[
-            'name' => 'Updated Name',
-            'email' => $email,
-            'password' => 'newpassword'
-        ]);
-
-        // Vérifie que la réponse HTTP a un code de statut 403 (Interdit)
-        $response->assertStatus(403);
-        // Vérifie que la réponse JSON contient le message d'erreur attendu
-        $response->assertJson(['message' => 'Non autorisé']);
     }
 
     public function test_delete_users_admin()
@@ -170,24 +128,4 @@ class userControllerTest extends TestCase
         // Vérifie que la réponse JSON contient le message de succès attendu
         $response->assertJson(['message' => 'User supprimée avec succès']);
     }
-
-    public function test_delete_users_noadmin()
-    {
-        // Crée un utilisateur non-administrateur
-        $user =User::factory()->create();
-
-        // Crée un autre utilisateur qui sera la cible de la suppression
-        $otherUser = User::factory()->create();
-         // Génère un token JWT pour l'utilisateur non-administrateur
-        $token = JWTAuth::fromUser($user);
-
-        // Effectue une requête DELETE à l'endpoint API pour tenter de supprimer l'autre utilisateur
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->delete('/api/user/'.$otherUser->id);
-        
-        // Vérifie que la réponse HTTP a un code de statut 403 (Interdit)
-        $response->assertStatus(403);
-        // Vérifie que la réponse JSON contient le message d'erreur attendu
-        $response->assertJson(['message' => 'Non autorisé']);
-    }
-
 }

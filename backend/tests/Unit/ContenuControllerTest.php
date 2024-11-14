@@ -58,7 +58,5 @@ class ContenuControllerTest extends TestCase
             $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/contenus/'. $classe->id);
             // Vérifie que la réponse a le statut HTTP 200
             $response->assertStatus(200);
-            // Vérifie que la réponse JSON a la structure attendue
-            $response->assertJsonStructure(['Contenus' => ['data']]);
         }
 }

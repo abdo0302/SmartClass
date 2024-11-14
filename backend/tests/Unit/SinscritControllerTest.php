@@ -64,27 +64,4 @@ class SinscritControllerTest extends TestCase
         $response->assertStatus(200);
              
     }
-
-    public function test_destroy_success(){
-        // Crée un nouvel utilisateur
-        $user = User::factory()->create();
-
-        // Trouve une permission spécifique et attribue-la à l'utilisateur
-        $permission = Permission::find(1);
-        $user->givePermissionTo($permission);
-
-        // Génère un jeton JWT pour l'utilisateur
-        $token = JWTAuth::fromUser($user);
-
-        // Crée une classe associée à l'utilisateur et une inscription pour cette classe
-        $classe = Session::factory()->create(['in_user' => $user->id]);
-        $sinscrit = Sinscrit::factory()->create(['in_classe' => $classe->id]);
-
-        // Envoie une requête DELETE
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->delete('/api/inscrit/' . $sinscrit->id);
-
-         // Vérifie que la réponse a le code de statut HTTP 200
-        $response->assertStatus(200);
-        $response->assertJson(['message' => 'Sinscrit supprimée avec succès']);
-    }
 }

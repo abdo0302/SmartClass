@@ -45,9 +45,9 @@ const delet=(id)=>{
     <div class="bg-white py-4 px-8 my-6 mx-10 max-md:mx-5 rounded-xl shadow-md flex flex-col gap-5 items-center border-2">
         <div class="flex justify-between items-center w-full">
             <span v-if="Notes!=='Aucun' && Notes!==''" class="text-lg font-semibold">Total de 
-                Tache {{ Notes.length }}</span>
+                Notes {{ Notes.length }}</span>
             <button @click="showForme" class="bg-blue-600 text-white p-2 rounded-lg shadow-md hover:shadow-none">Ajouter 
-                Tache</button>
+                Note</button>
         </div>
         <div v-if="Notes==''" class="flex justify-center mt-7"><img  class="animate-spin" src="../../../assets/img/pngwing.com (12).png" alt=""></div>
         <div v-else-if="Notes=='Aucun'" class="flex justify-center">

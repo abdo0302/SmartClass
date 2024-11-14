@@ -14,6 +14,7 @@ use App\Models\Sinscrit;
 
 class ClasseController extends Controller
 {
+    
     public function create(Request $request)
     {   
         // Récupérer l'utilisateur actuellement authentifié
