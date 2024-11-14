@@ -18,6 +18,7 @@ import AppContenus from '@/components/dashboard/Home/AppContenus.vue';
 import AppExercices from '@/components/dashboard/Home/AppExercices.vue';
 import AppAfficher from '@/components/dashboard/Home/AppAfficher.vue';
 import AppHure from '@/components/dashboard/Hure/AppHure.vue';
+import AppUsers from '@/components/dashboard/Users/AppUsers.vue';
 
 // Initialize the store 
 const store = useStore();
@@ -40,6 +41,7 @@ const isCloseSideBar=computed(()=>store.getters.getCloseSideBar)
             <div class="bg-slate-100" v-if="titleDashbord=='Meet'"><AppMeet/></div>
             <div class="bg-slate-100" v-if="titleDashbord=='Mes Notes'"><AppNote/></div>
             <div class="bg-slate-100" v-if="titleDashbord=='Le peintre'"><AppBoard/></div>
+            <div class="bg-slate-100" v-if="titleDashbord=='Users'"><AppUsers/></div>
             <div class="bg-slate-100" v-if="titleDashbord=='Statistique'"><AppStatistique/></div>
             <div class="bg-slate-100" v-if="titleDashbord=='Profile'"><AppProfile/></div>
             <div class="bg-slate-100" v-if="titleDashbord=='Parametre'"><AppParametre/></div>

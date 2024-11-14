@@ -7,7 +7,6 @@ import { createStore } from 'vuex'
 const url='http://127.0.0.1:8000/api';
 const store = createStore({
   state: {
-      authForm:'',
       closesideBar:false,
       titleDashbord:'Home',
       auth:'',
@@ -34,9 +33,6 @@ const store = createStore({
       Config:''
   },
   mutations: {
-    setAuthForm(state,value){
-      state.authForm=value;
-    },
     setCloseSideBar(state){
       state.closesideBar=!state.closesideBar;
     },
@@ -120,7 +116,6 @@ const store = createStore({
       try {
         const response = await axios.post(url+'/auth/register',user);
         sessionStorage.setItem('token', response.data.access_token);
-        context.commit('setAuthForm','');
         router.push('/dashboard');
       } catch (error) {
           let errorMessage = "Une erreur s'est produite lors de la création du compte. Veuillez réessayer.";
@@ -137,7 +132,6 @@ const store = createStore({
         try {
           const response = await axios.post(url+'/auth/login',user);
           sessionStorage.setItem('token', response.data.access_token);
-          context.commit('setAuthForm','');
           router.push('/dashboard');
         } catch (error) {
             let errorMessage = "L'e-mail ou le mot de passe de l'utilisateur sont incorrects"; 

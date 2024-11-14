@@ -10,15 +10,6 @@
   let error=computed(() => store.getters.getAuth);
   let loging=ref(false);
 
-// Function Show Form (LogIn , SinUp)
-  const Frm=(value)=>{
-    store.commit('setAuthForm',value)
-  }
-// Function Close forme  
-  const closeForm=()=>{
-     store.commit('setAuth','')
-     store.commit('setAuthForm','')
-   }
 // Function SignIn
    const signIn=()=>{
     loging.value=true
@@ -35,11 +26,8 @@
 
 </script>
 <template>
-    <section class="bg-black/70 w-full h-screen fixed top-0 left-0 flex justify-center items-center z-50">
-        <div class="relative w-1/3 max-lg:w-1/2 max-md:w-full mx-8 border-[20px] border-transparent rounded-[20px] bg-white shadow-lg xl:p-8 2xl:p-10 lg:p-8 md:p-8 sm:p-2 m-2">
-            <button @click="closeForm" class="absolute -right-1 -top-3 hover:bg-slate-200 px-2 py-1 rounded-full">
-                <i class="fa-solid fa-x"></i>
-             </button>
+    <section class="contenar bg-black/5 w-full h-screen fixed top-0 left-0 flex justify-center items-center z-50">
+        <div class="relative w-1/3 max-lg:w-1/2 max-md:w-full mx-8 border-[20px] border-transparent rounded-[20px] bg-white shadow-xl xl:p-8 2xl:p-10 lg:p-8 md:p-8 sm:p-2 m-2">
             <h1 class="pb-6 font-bold text-4xl max-md:text-2xl text-center cursor-default">Se connecter</h1>
             <span class="text-red-500 text-center w-full block">{{error}}</span>
            <form @submit.prevent="signIn" class="space-y-4">
@@ -53,13 +41,11 @@
             </div>
             <button class="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg p-2 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out flex justify-center items-center gap-2" type="submit" >Se connecter <img v-if="loging==true" class="w-7 animate-spin" src="../../assets/img/pngwing.com (12).png" alt=""></button>
           </form>
-          <div class="flex flex-col mt-4 items-center justify-center text-sm">
-            <h3 class="dark:text-gray-300">Vous n'avez pas encore de compte?
-              <a class="group text-blue-400 transition-all duration-100 ease-in-out" href="#">
-                <span @click="Frm('sinup')" class="bg-left-bottom bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">Inscrivez-vous</span>
-              </a>
-            </h3>
-          </div>
         </div>
     </section>
 </template>
+<style>
+.contenar{
+  background-image: url(../../assets/img/background-simplon-pattern.svg);
+}
+</style>

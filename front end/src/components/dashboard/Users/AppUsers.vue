@@ -40,24 +40,29 @@ const formatDate=(dateString)=> {
 }); 
 </script>
 <template>
-    <div class="w-1/2 max-md:w-full bg-white p-3 shadow-md rounded-xl">
+  <div class="w-full h-screen -mt-24 flex justify-center items-center">
+    <div class="w-4/5 max-md:w-full bg-white p-5 shadow-md rounded-xl">
+        <div class="flex justify-between items-center mb-5" ><span class="text-lg font-semibold">Totle profs</span> <button class="bg-blue-600 py-2 px-4 rounded-md text-white shadow-md hover:shadow-none">Ajouter Prof</button></div>
             <!-- table -->
             <div class="flex flex-col w-full mt-4 gap-1">
                 <div class="flex bg-blue-100 py-1 px-3 justify-between items-center rounded-md">
                     <div class="w-2/5 text-sm font-semibold">Name</div>
-                    <div class="w-2/3 text-sm text-center font-semibold">email</div>
+                    <div class="w-2/3 text-sm font-semibold text-center">email</div>
+                    <div class="w-2/3 text-sm font-semibold text-center">phone</div>
                     <div class="w-2/5 text-sm font-semibold text-center max-md:hidden">Date de inscrire</div>
                     <div class="w-2/5 text-end text-sm font-semibold">Actes</div>
                 </div>
-                <div class="h-96 max-h-56 overflow-y-auto flex flex-col gap-2">
+                <div class="max-h-56 overflow-y-auto flex flex-col gap-2">
                     <div v-for="User in Users" :key="User.id" class="flex w-full bg-white px-2 items-center">
                        <div class="w-2/5 text-sm flex">{{ User.name }}</div>
-                       <div class="w-2/3 text-nowrap text-sm ">{{ User.email }}</div>
+                       <div class="w-2/3 text-nowrap text-sm text-center">{{ User.email }}</div>
+                       <div class="w-2/3 text-nowrap text-sm text-center">{{ User.email }}</div>
                        <div class="w-2/5 text-sm text-center max-md:hidden">{{ formatDate(User.created_at) }}</div>
                        <div class="w-2/5 text-end flex justify-end gap-3"><button @click="deletUser(User.id)" class="bg-red-400 text-white px-3 rounded-md shadow-md hover:shadow-none"><i class="fa-solid fa-trash"></i></button></div>
                     </div>
                 </div>
             </div>
         </div>
+  </div>        
         <AlertMessage v-if="alertShow==true"/>
 </template>
