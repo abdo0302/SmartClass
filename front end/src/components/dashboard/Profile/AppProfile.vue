@@ -35,17 +35,13 @@ import AlertMessage from '../Alerts/AlertMessage.vue';
     },1500);
   }
 });  
-
-const DeleteAccount=(id)=>{
-   store.dispatch('UserDelet',id)
-}
 </script>
 <template>
     <div class="mx-5 mt-3 flex justify-center flex-col items-center">
         <!-- card start -->
         <div class="bg-white py-3 px-4 shadow-md w-1/2 max-md:w-full mx-28 flex justify-center rounded-xl">
             <!-- countinar -->
-            <div class="flex justify-center items-center w-full gap-3">
+            <div class="flex justify-start items-center w-full gap-3">
                 <!-- logo name -->
                 <div class="bg-teal-200 rounded-full w-9 h-9 flex justify-center items-center border shadow-sm">
                     {{ logo }}
@@ -55,8 +51,6 @@ const DeleteAccount=(id)=>{
                     <span class="text-lg font-semibold">{{ User_info.name }}</span>
                     <span v-for="(Permissions_role,i) in Permissions_roles.roles" :key="i" class="text-bas">Role: <span>{{ Permissions_role }}</span></span>
                 </div>
-                <!-- button delet account -->
-                <button @click="DeleteAccount(User_info.id)" class="mt-auto ml-auto text-xs bg-red-500 text-white p-2 rounded-md shadow-md hover:shadow-none">Delete Account</button>
             </div>
         </div>
          <!-- card end -->

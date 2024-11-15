@@ -4,12 +4,14 @@ import { onMounted,computed, ref ,watch } from 'vue';
 import { useStore } from 'vuex';
 // Import local components
 import AlertMessage from '../Alerts/AlertMessage.vue';
+import AddUser from './AddUser.vue';
 
   // Initialize the store 
 const store = useStore();
 
 const Users = computed(() => store.getters.getUsers);
 const alertShow=ref(false);
+const modalAddUser=ref(false)
 const Message=computed(()=>store.getters.getMessage);
 
 onMounted(()=>{
@@ -38,11 +40,20 @@ const formatDate=(dateString)=> {
     },1500);
   }
 }); 
+
+//function show modale user
+function showModaleUser() {
+  modalAddUser.value=true
+}
+
+function handleshowModaleUser(msg) {
+  modalAddUser.value = msg;
+}
 </script>
 <template>
   <div class="w-full h-screen -mt-24 flex justify-center items-center">
     <div class="w-4/5 max-md:w-full bg-white p-5 shadow-md rounded-xl">
-        <div class="flex justify-between items-center mb-5" ><span class="text-lg font-semibold">Totle profs</span> <button class="bg-blue-600 py-2 px-4 rounded-md text-white shadow-md hover:shadow-none">Ajouter Prof</button></div>
+        <div class="flex justify-between items-center mb-5" ><span class="text-lg font-semibold">Totle profs</span> <button @click="showModaleUser" class="bg-blue-600 py-2 px-4 rounded-md text-white shadow-md hover:shadow-none">Ajouter Prof</button></div>
             <!-- table -->
             <div class="flex flex-col w-full mt-4 gap-1">
                 <div class="flex bg-blue-100 py-1 px-3 justify-between items-center rounded-md">
@@ -65,4 +76,5 @@ const formatDate=(dateString)=> {
         </div>
   </div>        
         <AlertMessage v-if="alertShow==true"/>
+        <AddUser v-if="modalAddUser==true" @messageToParent="handleshowModaleUser"/>
 </template>

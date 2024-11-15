@@ -21,41 +21,48 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {    
-        // Préparer les données pour l'email de bienvenue
-        $data=[
-            "name"=>$request->name,
-            "role"=>$request->role
-        ];
-        // Verifiez que les donnees de la requête sont correctes
-        $validateData = $request->validate([
-            'name' => 'required|string|max:255|min:3',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:eleve,professeur',
-        ]);
-        $token = Str::random(80);
-        // Creer un utilisateur
-         $user = User::create([
-            'name' => $validateData['name'],
-            'email' => $validateData['email'],
-            'password' => bcrypt($validateData['password']),
-            'token'=>bcrypt($token)
-         ]);
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
+                    // Préparer les données pour l'email de bienvenue
+                $data=[
+                    "name"=>$request->name,
+                    "role"=>$request->role,
+                    "password"=>$request->password,
+                    "email"=>$request->email
+                ];
+                // Verifiez que les donnees de la requête sont correctes
+                $validateData = $request->validate([
+                    'name' => 'required|string|max:255|min:3',
+                    'email' => 'required|string|email|max:255|unique:users',
+                    'password' => 'required|string|min:8|confirmed',
+                    'role' => 'required|in:eleve,professeur',
+                ]);
+                $token = Str::random(80);
+                // Creer un utilisateur
+                $user = User::create([
+                    'name' => $validateData['name'],
+                    'email' => $validateData['email'],
+                    'password' => bcrypt($validateData['password']),
+                    'token'=>bcrypt($token)
+                ]);
 
-         // Attribuer le role en fonction de la valeur dans la demande
-        if ($request->role=="eleve") {           
-            $user->assignRole('eleve');
-        } elseif ($request->role=="professeur") {
-            $user->assignRole('professeur'); 
+                // Attribuer le role en fonction de la valeur dans la demande
+                if ($request->role=="eleve") {           
+                    $user->assignRole('eleve');
+                } elseif ($request->role=="professeur") {
+                    $user->assignRole('professeur'); 
+                }
+
+                // Envoyer un email de bienvenue à l'utilisateur
+                Mail::to($validateData['email'])->send(new WelcomEmail($data));
+
+                // Retourner la réponse avec le jeton d'authentification
+                return response()->json(['message' => 'Ajouter User avec succès'], 201);
+        }else {
+            // Retourner un message d'erreur 
+            return response()->json(['message' => 'Non autorisé'], 403);
         }
-
-        // Générer un jeton d'authentification pour l'utilisateur
-        $token = auth('api')->login($user);
-        // Envoyer un email de bienvenue à l'utilisateur
-        Mail::to($validateData['email'])->send(new WelcomEmail($data));
-
-        // Retourner la réponse avec le jeton d'authentification
-        return $this->respondWithToken($token);
+          
     }
     public function login(Request $request)
     {

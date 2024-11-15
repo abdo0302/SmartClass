@@ -16,8 +16,8 @@ class RolesAndPermissionsSeeder extends Seeder
     {
          // les rôles
          $adminRole = Role::create(['name' => 'admin']);
-         $professeurRole = Role::create(['name' => 'professeur']);
-         $eleveRole = Role::create(['name' => 'eleve']);
+         Role::create(['name' => 'professeur', 'guard_name' => 'api']);
+         Role::create(['name' => 'eleve', 'guard_name' => 'api']);
          // les Permission
          $inscriAclassPermission = Permission::create(['name' => 'inscrire les élève dans class']);
          $creerFeedbackPermission = Permission::create(['name' => 'creer Feedback']);

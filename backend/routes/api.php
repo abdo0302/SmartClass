@@ -27,7 +27,6 @@ Route::group(
     ['prefix' => 'auth'],
     function ($router) {
         Route::post('login', [AuthController::class, 'login']);
-        Route::post('register', [AuthController::class, 'register']);
     }
 );
 
@@ -37,6 +36,7 @@ Route::middleware(['auth:api'])->group(
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('refresh', [AuthController::class, 'refresh']);
         Route::get('permissions-roles', [AuthController::class, 'getPermissionsAndRoles']);
+        Route::post('register', [AuthController::class, 'register']);
     }
 );
 

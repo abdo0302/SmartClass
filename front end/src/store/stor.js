@@ -114,9 +114,14 @@ const store = createStore({
      //sign up 
      async signUp(context,user){
       try {
-        const response = await axios.post(url+'/auth/register',user);
-        sessionStorage.setItem('token', response.data.access_token);
-        router.push('/dashboard');
+        await axios.post(url+'/register',user,
+          {
+            headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            }
+          }
+        );
+        context.commit('setMessage','Ajouter User avec succès');
       } catch (error) {
           let errorMessage = "Une erreur s'est produite lors de la création du compte. Veuillez réessayer.";
           if (error.response && error.response.data && error.response.data.message) {
@@ -124,7 +129,7 @@ const store = createStore({
           } else if (error.response && error.response.data && typeof error.response.data === 'object') {
               errorMessage = Object.values(error.response.data).join(', ');
           }
-          context.commit('setAuth',errorMessage );
+          context.commit('setMessage',errorMessage );
       }
       },
       // sign in
