@@ -6,6 +6,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Str;
+use App\Models\User;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -16,8 +18,8 @@ class RolesAndPermissionsSeeder extends Seeder
     {
          // les rôles
          $adminRole = Role::create(['name' => 'admin']);
-         Role::create(['name' => 'professeur', 'guard_name' => 'api']);
-         Role::create(['name' => 'eleve', 'guard_name' => 'api']);
+         $professeurRole=Role::create(['name' => 'professeur']);
+         $eleveRole=Role::create(['name' => 'eleve']);
          // les Permission
          $inscriAclassPermission = Permission::create(['name' => 'inscrire les élève dans class']);
          $creerFeedbackPermission = Permission::create(['name' => 'creer Feedback']);
@@ -43,5 +45,18 @@ class RolesAndPermissionsSeeder extends Seeder
          $adminRole->givePermissionTo([$inscriAclassPermission, $creerFeedbackPermission, $accesAcontenuPermission, $accesAsessionLivePermission, $gererClassPermission, $suiviElevPermission, $gererDevoirPermission, $gererSessionLivePermission,$envoyEmailPermission, $corrgiDevoirPermission, $gereContenusPermission, $gererElevePermission, $gererUtilisateurPermission, $gererStatistiquePermission ,$accesClassPermission,$accesAcorrectionPermission, $gererTodoPermission]);
          $professeurRole->givePermissionTo([$inscriAclassPermission, $creerFeedbackPermission, $accesAcontenuPermission, $accesAsessionLivePermission, $gererClassPermission, $suiviElevPermission, $gererDevoirPermission, $gererSessionLivePermission,$envoyEmailPermission, $corrgiDevoirPermission, $gereContenusPermission, $gererElevePermission ,$accesClassPermission ,$accesAcorrectionPermission ,$gererTodoPermission]);
          $eleveRole->givePermissionTo([$creerFeedbackPermission, $accesAsessionLivePermission ,$accesClassPermission ,$accesAdevoirPermission ,$accesAcorrectionPermission ,$gererTodoPermission]);
-    }
+    
+    
+    
+    
+         $token = Str::random(80);
+         $user = User::create([
+            'name' => 'admin',
+            'email' =>'admin@gmail.com' ,
+            'password' => bcrypt('password'),
+            'token'=>bcrypt($token)
+        ]);
+
+         $user->assignRole('admin');
+        }
 }

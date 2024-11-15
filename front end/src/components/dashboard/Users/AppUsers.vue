@@ -48,12 +48,13 @@ function showModaleUser() {
 
 function handleshowModaleUser(msg) {
   modalAddUser.value = msg;
+  store.dispatch('getusers')
 }
 </script>
 <template>
   <div class="w-full h-screen -mt-24 flex justify-center items-center">
     <div class="w-4/5 max-md:w-full bg-white p-5 shadow-md rounded-xl">
-        <div class="flex justify-between items-center mb-5" ><span class="text-lg font-semibold">Totle profs</span> <button @click="showModaleUser" class="bg-blue-600 py-2 px-4 rounded-md text-white shadow-md hover:shadow-none">Ajouter Prof</button></div>
+        <div class="flex justify-between items-center mb-5" ><span class="text-lg font-semibold">Totle profs</span> <button @click="showModaleUser" class="bg-blue-600 py-2 px-4 rounded-md text-white shadow-md hover:shadow-none">Ajouter User</button></div>
             <!-- table -->
             <div class="flex flex-col w-full mt-4 gap-1">
                 <div class="flex bg-blue-100 py-1 px-3 justify-between items-center rounded-md">
